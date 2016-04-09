@@ -1,5 +1,6 @@
 package com.example.trentmarino.cairns_luxury_apartment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,8 +17,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button gotToNewPage;
     Spinner locations;
     private MenuItem item;
+    private CalendarView calendarView;
+    private int yr, mon, dy;
+    private Calendar selectedDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Calendar c = Calendar.getInstance();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -58,8 +67,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         new JSONTask().execute("http://10.0.2.2/cla_php_scripts/get_property_names.php");
+        yr = c.get(Calendar.YEAR);
+        mon = c.get(Calendar.MONTH);
+        dy = c.get(Calendar.DAY_OF_MONTH);
 
+        Button datePickerButton = (Button) findViewById(R.id.date_picker_button);
+        calendarView = (CalendarView) findViewById(R.id.calendar_view);
+
+        //BUTTON'S ONCLICK
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new DatePickerDialog(MainActivity.this, dateListener, yr, mon, dy).show();
+            }
+        });
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Toast.makeText(getApplicationContext(), "Selected date is" + (month + 1) + " - " + dayOfMonth + " - " +
+                        year, Toast.LENGTH_SHORT).show();
+            }
+        });
         }
+    private DatePickerDialog.OnDateSetListener dateListener =
+            new DatePickerDialog.OnDateSetListener() {
+
+                public void onDateSet(DatePicker view, int year, int
+                        monthOfYear, int dayOfMonth) {
+                    selectedDate = Calendar.getInstance();
+                    yr = year;
+                    mon = monthOfYear;
+                    dy = dayOfMonth;
+                    selectedDate.set(yr, mon, dy);
+                    calendarView.setDate(selectedDate.getTimeInMillis());
+                }
+            };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
