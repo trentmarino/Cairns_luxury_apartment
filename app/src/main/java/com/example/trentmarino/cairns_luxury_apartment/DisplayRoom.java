@@ -1,5 +1,6 @@
 package com.example.trentmarino.cairns_luxury_apartment;
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -27,6 +30,8 @@ public class DisplayRoom extends AppCompatActivity  {
     String propertyID;
     String roomSelected;
     TextView testRoomSelected, display;
+    private BookingDB bookingDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,16 @@ public class DisplayRoom extends AppCompatActivity  {
         testRoomSelected.setText(roomSelected);
 
         new JSONTask().execute("http://10.0.2.2/cla_php_scripts/get_property_info_based_off_selected.php");
+        bookingDB = new BookingDB(this);
+        Cursor cursor = bookingDB.getAllCursor();
+        ListView listView = (ListView) findViewById(R.id.listView);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                R.layout.item_view, cursor,
+                new String[]{"check_in","check_out"},
+                new int[]{R.id.CheckIn,R.id.CheckOut},
+                0);
 
+        listView.setAdapter(adapter);
 
 
     }

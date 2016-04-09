@@ -16,26 +16,65 @@
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button android:id="@+id/date_picker_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Open Date Picker"
-        android:layout_below="@+id/spinner1"
-        android:layout_alignParentStart="true" />
+
     <CalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/date_picker_button"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="invisible"/>
+    <CalendarView
+        android:id="@+id/calendar_view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/date_picker_button"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Continue"
         android:id="@+id/button"
-        android:layout_marginBottom="81dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/date_picker_button"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_picker_button"
+        android:background="@drawable/calendar"
+        android:layout_below="@+id/spinner1"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check-In"
+        android:id="@+id/Check_In"
+        android:textSize="20dp"
+        android:layout_below="@+id/spinner1"
+        android:layout_toEndOf="@+id/date_picker_button"
+        android:layout_above="@+id/calendar_view"
+        android:paddingLeft="10dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:background="@drawable/calendar"
+        android:layout_below="@+id/spinner1"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check-Out"
+        android:id="@+id/Check_Out"
+        android:textSize="20dp"
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/spinner1"
+        android:layout_toEndOf="@+id/imageButton2" />
 
 </RelativeLayout>

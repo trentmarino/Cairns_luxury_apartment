@@ -2,6 +2,7 @@ package com.example.trentmarino.cairns_luxury_apartment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,13 +41,17 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView result;
+    private TextView result, checkIn, checkOut;
     private Button gotToNewPage;
     Spinner locations;
     private MenuItem item;
     private CalendarView calendarView;
     private int yr, mon, dy;
     private Calendar selectedDate;
+    private String finalCheckIn;
+    private String finalCheckOut;
+    private CalendarView calendarView2;
+    private BookingDB bookingDB;
 
 
     @Override
@@ -63,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        checkIn = (TextView) findViewById(R.id.Check_In);
+        checkOut = (TextView) findViewById(R.id.Check_Out);
 
 
         new JSONTask().execute("http://10.0.2.2/cla_php_scripts/get_property_names.php");
@@ -71,8 +78,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mon = c.get(Calendar.MONTH);
         dy = c.get(Calendar.DAY_OF_MONTH);
 
-        Button datePickerButton = (Button) findViewById(R.id.date_picker_button);
+        ImageButton datePickerButton = (ImageButton) findViewById(R.id.date_picker_button);
+        ImageButton datePickerButton2 = (ImageButton) findViewById(R.id.imageButton2);
         calendarView = (CalendarView) findViewById(R.id.calendar_view);
+        calendarView2 = (CalendarView) findViewById(R.id.calendar_view2);
+
+        bookingDB = new BookingDB(this);
 
         //BUTTON'S ONCLICK
         datePickerButton.setOnClickListener(new View.OnClickListener() {
@@ -80,26 +91,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new DatePickerDialog(MainActivity.this, dateListener, yr, mon, dy).show();
             }
         });
-
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(getApplicationContext(), "Selected date is" + (month + 1) + " - " + dayOfMonth + " - " +
-                        year, Toast.LENGTH_SHORT).show();
+        datePickerButton2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new DatePickerDialog(MainActivity.this, dateListener2, yr, mon, dy).show();
             }
         });
+
+
         }
     private DatePickerDialog.OnDateSetListener dateListener =
             new DatePickerDialog.OnDateSetListener() {
 
-                public void onDateSet(DatePicker view, int year, int
-                        monthOfYear, int dayOfMonth) {
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     selectedDate = Calendar.getInstance();
                     yr = year;
                     mon = monthOfYear;
                     dy = dayOfMonth;
                     selectedDate.set(yr, mon, dy);
                     calendarView.setDate(selectedDate.getTimeInMillis());
+                    finalCheckIn = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
+                    if (checkOut.getText().toString().equals("Check-Out")){
+                        checkIn.setText(finalCheckIn);
+                        checkOut.setText((dayOfMonth+1) + "/" + (monthOfYear+1) + "/" + year);
+                    }else {
+                        checkIn.setText(finalCheckIn);
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Selected date is " + dayOfMonth + "/" + (monthOfYear+ 1) + "/" +
+                            year, Toast.LENGTH_SHORT).show();
+                }
+            };
+    private DatePickerDialog.OnDateSetListener dateListener2 =
+            new DatePickerDialog.OnDateSetListener() {
+
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    selectedDate = Calendar.getInstance();
+                    yr = year;
+                    mon = monthOfYear;
+                    dy = dayOfMonth;
+                    selectedDate.set(yr, mon, dy);
+                    calendarView2.setDate(selectedDate.getTimeInMillis());
+                    finalCheckOut = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
+                    checkOut.setText(finalCheckOut);
+                    Toast.makeText(getApplicationContext(), "Selected date is " + dayOfMonth + "/" + (monthOfYear+ 1) + "/" +
+                            year, Toast.LENGTH_SHORT).show();
                 }
             };
     @Override
@@ -259,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     gotToNewPage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            bookingDB.insertCursor(finalCheckIn, finalCheckOut);
                             local.putExtra("location", bob.get(position));
                             local.putExtra("propertyID", ids.get(position));
                             Log.i("printOut", " " + bob.get(position));
