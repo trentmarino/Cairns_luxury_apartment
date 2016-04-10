@@ -2,7 +2,6 @@ package com.example.trentmarino.cairns_luxury_apartment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -113,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (checkOut.getText().toString().equals("Check-Out")){
                         checkIn.setText(finalCheckIn);
                         checkOut.setText((dayOfMonth+1) + "/" + (monthOfYear+1) + "/" + year);
+                        finalCheckOut = (dayOfMonth+1) + "/" + (monthOfYear+1) + "/" + year;
                     }else {
                         checkIn.setText(finalCheckIn);
                     }
@@ -205,11 +205,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-
                 InputStream stream = connection.getInputStream();
-
                 StringBuffer buffer = new StringBuffer();
-
                 reader = new BufferedReader(new InputStreamReader(stream));
 
                 String line = "";
@@ -303,25 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             startActivity(local);
                         }
 
-
                     });
-
-
-//                    switch (position){
-//                        case 0:
-//                            break;
-//                        case 1:
-//                            break;
-//                        case 2:
-//                            break;
-//                        case 3:
-//                            break;
-//                        case 4:
-//                            break;
-//                        case 5:
-//                            break;
-//
-//                    }
 
                 }
 
