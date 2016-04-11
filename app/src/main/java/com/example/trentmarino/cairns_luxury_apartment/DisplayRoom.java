@@ -47,7 +47,7 @@ public class DisplayRoom extends AppCompatActivity  {
         Log.i("paseed Number", propertyID);
         testRoomSelected.setText(roomSelected);
 
-        new JSONTask().execute("http://10.0.2.2/cla_php_scripts/get_property_info_based_off_selected.php");
+        new JSONTask().execute(" https://whispering-tundra-59848.herokuapp.com/get_property_info_based_off_selected.php");
         bookingDB = new BookingDB(this);
         Cursor cursor = bookingDB.getAllCursor();
         ListView listView = (ListView) findViewById(R.id.listView);

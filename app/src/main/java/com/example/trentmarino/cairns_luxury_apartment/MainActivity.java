@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkIn = (TextView) findViewById(R.id.Check_In);
         checkOut = (TextView) findViewById(R.id.Check_Out);
 
-
-        new JSONTask().execute("http://10.0.2.2/cla_php_scripts/get_property_names.php");
+//        http://10.0.2.2/cla_php_scripts/get_property_names.php
+        new JSONTask().execute(" https://whispering-tundra-59848.herokuapp.com/get_property_names.php");
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
         dy = c.get(Calendar.DAY_OF_MONTH);
