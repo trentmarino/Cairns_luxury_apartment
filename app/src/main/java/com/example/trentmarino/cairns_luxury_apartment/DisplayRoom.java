@@ -32,7 +32,7 @@ public class DisplayRoom extends AppCompatActivity  {
     String roomSelected;
     TextView testRoomSelected, display;
     private BookingDB bookingDB;
-
+    ArrayList<String> retrievedRoom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,11 +158,16 @@ public class DisplayRoom extends AppCompatActivity  {
             Log.i("dsfdfgd", resulta);
 
             String[] room = resulta.split("\n");
-            //display.setText(resulta);
-            ListView roomer = (ListView) findViewById(R.id.listView2);
-            ArrayAdapter adapter = new ArrayAdapter(DisplayRoom.this,
-                    android.R.layout.simple_list_item_1,room);
-            roomer.setAdapter(adapter);
+            retrievedRoom = new ArrayList<>();
+            retrievedRoom.add(resulta);
+            CustomRoomAdapter list = new CustomRoomAdapter(DisplayRoom.this,room);
+            ListView roomListView = (ListView) findViewById(R.id.listView2);
+            roomListView.setAdapter(list);
+
+
+//            ArrayAdapter adapter = new ArrayAdapter(DisplayRoom.this,
+//                    android.R.layout.simple_list_item_1,room);
+
 
         }
 

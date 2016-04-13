@@ -1,54 +1,44 @@
 package com.example.trentmarino.cairns_luxury_apartment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * Created by trentmarino on 13/04/16.
- */
-public class CustomRoomAdapter extends BaseAdapter {
-    public Context ctx;
-    public CustomRoomAdapter(Context context){
-        this.ctx = context;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.logging.Handler;
+
+
+public class CustomRoomAdapter extends ArrayAdapter<String> {
+
+    Activity context;
+    String[] itemname;
+    private Handler handler;
+    public CustomRoomAdapter(Activity context, String[] itemname) {
+        super(context, R.layout.room_item_view, itemname);
+        this.context=context;
+        this.itemname=itemname;
+
+
     }
 
-    @Override
-    public int getCount() {
-        return 0;
-    }
+    public View getView(int position,View view,ViewGroup parent) {
 
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        Log.i("split",itemname[position]);
+            LayoutInflater inflater = context.getLayoutInflater();
+            View rowView = inflater.inflate(R.layout.room_item_view, null, true);
+            TextView txtTitle = (TextView) rowView.findViewById(R.id.room_name);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.room_thumb);
+            txtTitle.setText(itemname[position]);
+            return rowView;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-//        View row = convertView;
-//        if(row == null)
-//        {
-//            LayoutInflater inflater = ctx.getLayoutInflater();
-//            row = inflater.inflate(R.layout.room_item_view, parent, false);
-//
-//
-//            holder.imgIcon = (ImageView)row.findViewById(R.id.imgIcon);
-//            holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
-//
-//
-//        }
-//        else
-//        {
-//            holder = (WeatherHolder)row.getTag();
-//        }
-
-        return null;
-    }
+    };
 }

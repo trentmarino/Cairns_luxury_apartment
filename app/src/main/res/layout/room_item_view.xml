@@ -12,7 +12,7 @@
         android:id="@+id/room_name"
         android:layout_gravity="right"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/space" />
 
     <ImageView
         android:layout_width="110dp"
@@ -29,8 +29,8 @@
         android:text="Medium Text"
         android:id="@+id/room_descript"
         android:layout_below="@+id/room_name"
-        android:layout_alignStart="@+id/room_name"
-        android:layout_alignEnd="@+id/room_name" />
+        android:layout_alignEnd="@+id/room_name"
+        android:layout_toEndOf="@+id/space" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,4 +40,12 @@
         android:id="@+id/Price"
         android:layout_below="@+id/room_descript"
         android:layout_alignEnd="@+id/room_name" />
+
+    <Space
+        android:layout_width="140dp"
+        android:layout_height="20px"
+        android:layout_above="@+id/room_descript"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/space" />
 </RelativeLayout>
