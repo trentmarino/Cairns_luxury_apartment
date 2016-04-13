@@ -313,7 +313,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+    public void location(View view){
+        Intent intent = new Intent(this, MapsLocation.class);
+        startActivity(intent);
 
+    }
 
 
 
