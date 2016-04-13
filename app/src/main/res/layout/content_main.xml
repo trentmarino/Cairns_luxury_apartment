@@ -77,4 +77,14 @@
         android:layout_below="@+id/spinner1"
         android:layout_toEndOf="@+id/imageButton2" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Us!"
+        android:id="@+id/button2"
+        android:onClick="location"
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="139dp" />
+
 </RelativeLayout>
