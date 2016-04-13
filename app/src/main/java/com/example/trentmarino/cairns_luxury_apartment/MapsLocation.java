@@ -1,7 +1,7 @@
 package com.example.trentmarino.cairns_luxury_apartment;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,8 +10,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Map;
 
 public class MapsLocation extends FragmentActivity implements OnMapReadyCallback {
 
@@ -43,7 +41,7 @@ public class MapsLocation extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng cairns = new LatLng(-16.92280692114714, 145.77960717491806);
-        mMap.addMarker(new MarkerOptions().position(cairns).title("Marker in Cairns"));
+        mMap.addMarker(new MarkerOptions().position(cairns).title("Check In"));
        // mMap.moveCamera(CameraUpdateFactory.newLatLng(cairns));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         UiSettings mapSettings;

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class DisplayRoom extends AppCompatActivity  {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         testRoomSelected = (TextView) findViewById(R.id.textView3);
-        display = (TextView) findViewById(R.id.displayer);
+//        display = (TextView) findViewById(R.id.displayer);
         roomSelected = getIntent().getStringExtra("location");
         propertyID = getIntent().getStringExtra("propertyID");
         Log.i("Passed String", roomSelected);
@@ -155,7 +156,13 @@ public class DisplayRoom extends AppCompatActivity  {
         protected void onPostExecute(String resulta) {
             super.onPostExecute(resulta);
             Log.i("dsfdfgd", resulta);
-            display.setText(resulta);
+
+            String[] room = resulta.split("\n");
+            //display.setText(resulta);
+            ListView roomer = (ListView) findViewById(R.id.listView2);
+            ArrayAdapter adapter = new ArrayAdapter(DisplayRoom.this,
+                    android.R.layout.simple_list_item_1,room);
+            roomer.setAdapter(adapter);
 
         }
 
