@@ -23,6 +23,10 @@ public void insertCursor(String checkIn, String checkOut){
     db.insert("tmp_booking", null, values);
     db.close();
     Log.i("insertCursor", "" + getReadableDatabase().rawQuery("SELECT * FROM tmp_booking;", null));
+
+
+
+    
 }
     @Override
     public void onCreate(SQLiteDatabase db) {
