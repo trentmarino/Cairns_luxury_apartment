@@ -39,7 +39,8 @@
         android:text="Large Text"
         android:id="@+id/Price"
         android:layout_below="@+id/room_descript"
-        android:layout_alignEnd="@+id/room_name" />
+        android:layout_alignEnd="@+id/room_name"
+        android:textColor="#7bf16b" />
 
     <Space
         android:layout_width="140dp"

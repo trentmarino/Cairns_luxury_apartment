@@ -20,9 +20,14 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +76,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkIn = (TextView) findViewById(R.id.Check_In);
         checkOut = (TextView) findViewById(R.id.Check_Out);
 
-//        http://10.0.2.2/cla_php_scripts/get_property_names.php
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+        .cacheInMemory(true)
+                .cacheOnDisk(true)
+        .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        .defaultDisplayImageOptions(defaultOptions)
+        .build();
+        ImageLoader.getInstance().init(config);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView2);
+
+        ImageLoader.getInstance().displayImage("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg", imageView); // Default options will be used
+
         new JSONTask().execute(" https://whispering-tundra-59848.herokuapp.com/get_property_names.php");
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
@@ -81,13 +98,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageButton datePickerButton2 = (ImageButton) findViewById(R.id.imageButton2);
         calendarView = (CalendarView) findViewById(R.id.calendar_view);
         calendarView2 = (CalendarView) findViewById(R.id.calendar_view2);
-
+        finalCheckIn = dy + "/" + (mon+1) + "/" + yr;
+        finalCheckOut = (dy+1) + "/" + (mon+1) + "/" + yr;
+        checkIn.setText(finalCheckIn);
+        checkOut.setText(finalCheckOut);
         bookingDB = new BookingDB(this);
+
+
 
         //BUTTON'S ONCLICK
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new DatePickerDialog(MainActivity.this, dateListener, yr, mon, dy).show();
+
             }
         });
         datePickerButton2.setOnClickListener(new View.OnClickListener() {
@@ -165,10 +188,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.button2) {
+            Intent intent = new Intent(this, MapsLocation.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(this, RoomInfoListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -291,7 +316,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     gotToNewPage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            bookingDB.insertCursor(finalCheckIn, finalCheckOut);
+                            //bookingDB.insertCursor(finalCheckIn,finalCheckOut);
+                            bookingDB.updateBooking("1",finalCheckIn, finalCheckOut);
                             local.putExtra("location", bob.get(position));
                             local.putExtra("propertyID", ids.get(position));
                             Log.i("printOut", " " + bob.get(position));
@@ -313,11 +339,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
-    public void location(View view){
-        Intent intent = new Intent(this, MapsLocation.class);
-        startActivity(intent);
 
-    }
 
 
 

@@ -9,6 +9,10 @@
     <string name="title_activity_maps_location">Map</string>
     <string name="title_room_list">room</string>
     <string name="title_room_detail">room Detail</string>
+    <string name="title_roominfo_list">Rooms</string>
+    <string name="title_roominfo_detail">Room_Info Detail</string>
+    <string name="title_activity_information">information</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 
 </resources>
