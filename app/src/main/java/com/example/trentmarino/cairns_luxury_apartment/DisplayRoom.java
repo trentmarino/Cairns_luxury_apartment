@@ -1,6 +1,5 @@
 package com.example.trentmarino.cairns_luxury_apartment;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -223,8 +222,8 @@ public class DisplayRoom extends AppCompatActivity {
                                         int position, long id) {
 
                     Toast.makeText(DisplayRoom.this,"clickjewd",Toast.LENGTH_SHORT).show();
-                    Intent info = new Intent(DisplayRoom.this,information.class);
-                    startActivity(info);
+//                    Intent info = new Intent(DisplayRoom.this,information.class);
+//                    startActivity(info);
                 }
 
 
