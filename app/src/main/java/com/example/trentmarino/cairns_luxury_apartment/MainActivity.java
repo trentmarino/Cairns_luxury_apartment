@@ -192,8 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, MapsLocation.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(this, RoomInfoListActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

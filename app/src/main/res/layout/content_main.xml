@@ -101,25 +101,12 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editText2"
-            android:layout_weight="0.24" />
+            android:layout_weight="0.35" />
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.19" />
-
-        <EditText
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText"
-            android:layout_weight="0.19" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.18" />
+            android:layout_weight="0.32" />
 
         <EditText
             android:layout_width="75dp"
@@ -127,7 +114,7 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editText3"
-            android:layout_weight="0.13" />
+            android:layout_weight="0.46" />
     </LinearLayout>
 
 

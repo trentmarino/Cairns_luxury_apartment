@@ -61,24 +61,6 @@
             android:name=".MapsLocation"
             android:label="@string/title_activity_maps_location" />
         <activity
-            android:name=".RoomInfoListActivity"
-            android:label="@string/title_roominfo_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.trentmarino.cairns_luxury_apartment.MainActivity" />
-        </activity>
-        <activity
-            android:name=".RoomInfoDetailActivity"
-            android:label="@string/title_roominfo_detail"
-            android:parentActivityName=".RoomInfoListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.trentmarino.cairns_luxury_apartment.RoomInfoListActivity" />
-        </activity>
-        <activity
             android:name=".information"
             android:label="@string/title_activity_information"
             android:theme="@style/AppTheme.NoActionBar"></activity>
