@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/no_adult"
             android:layout_weight="0.35" />
 
         <Space
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText3"
+            android:id="@+id/no_child"
             android:layout_weight="0.46" />
     </LinearLayout>
 

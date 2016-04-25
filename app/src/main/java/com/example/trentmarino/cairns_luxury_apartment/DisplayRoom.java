@@ -52,9 +52,9 @@ public class DisplayRoom extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         testRoomSelected = (TextView) findViewById(R.id.textView3);
-//        display = (TextView) findViewById(R.id.displayer);
-        roomSelected = getIntent().getStringExtra("location");
+
         propertyID = getIntent().getStringExtra("propertyID");
+        roomSelected = getIntent().getStringExtra("location");
         Log.i("Passed String", roomSelected);
         Log.i("paseed Number", propertyID);
         testRoomSelected.setText(roomSelected);
@@ -67,8 +67,8 @@ public class DisplayRoom extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                 R.layout.item_view, cursor,
-                new String[]{"check_in", "check_out"},
-                new int[]{R.id.CheckIn, R.id.CheckOut},
+                new String[]{"check_in", "check_out","no_of_guests"},
+                new int[]{R.id.CheckIn, R.id.CheckOut , R.id.noGuests},
                 0);
         listView.setAdapter(adapter);
 
@@ -178,13 +178,14 @@ public class DisplayRoom extends AppCompatActivity {
         @Override
         protected void onPostExecute(String resulta) {
             super.onPostExecute(resulta);
+
             if (resulta.matches("")) {
                 TextView noRooms = (TextView) findViewById(R.id.no_room);
                 noRooms.setText("No room avalible");
             }
-            Log.i("dsfdfgd", resulta);
+            Log.i("results", resulta);
             ArrayList<String> url = new ArrayList<>();
-            ArrayList<String> room = new ArrayList<>();
+            final ArrayList<String> room = new ArrayList<>();
             ArrayList<String> prices = new ArrayList<>();
             Pattern roomType = Pattern.compile("\\[([^}]*)\\]");
             Matcher convertedRoomType = roomType.matcher(resulta);
@@ -221,7 +222,7 @@ public class DisplayRoom extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
 
-                    Toast.makeText(DisplayRoom.this,"clickjewd",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DisplayRoom.this,"clicked " + room.get(position),Toast.LENGTH_SHORT).show();
 //                    Intent info = new Intent(DisplayRoom.this,information.class);
 //                    startActivity(info);
                 }

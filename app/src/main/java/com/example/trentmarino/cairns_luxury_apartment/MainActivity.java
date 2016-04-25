@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -56,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String finalCheckOut;
     private CalendarView calendarView2;
     private BookingDB bookingDB;
+     String noOfGuests;
+     String noAdult = "5";
+     String noChild = "5";
+    EditText adult;
+    EditText child;
 
 
     @Override
@@ -76,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkIn = (TextView) findViewById(R.id.Check_In);
         checkOut = (TextView) findViewById(R.id.Check_Out);
 
-
+        adult = (EditText) findViewById(R.id.no_adult);
+        child = (EditText) findViewById(R.id.no_child);
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
         .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageView = (ImageView) findViewById(R.id.imageView2);
 
         ImageLoader.getInstance().displayImage("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg", imageView); // Default options will be used
+
 
         new JSONTask().execute(" https://whispering-tundra-59848.herokuapp.com/get_property_names.php");
         yr = c.get(Calendar.YEAR);
@@ -298,7 +306,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 bob.add(separated[i]);
             }
-            //bob.add("all");
+
+
+            noAdult = adult.getText().toString();
+            noChild = child.getText().toString();
+            noOfGuests = noAdult + noChild;
+
             locations = (Spinner) findViewById(R.id.spinner1);
             locations.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, bob));
 
@@ -310,17 +323,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                     final Intent local = new Intent(MainActivity.this, DisplayRoom.class);
-
                     gotToNewPage = (Button) findViewById(R.id.button);
                     gotToNewPage.setOnClickListener(new View.OnClickListener() {
+
+
                         @Override
                         public void onClick(View v) {
-                            //bookingDB.insertCursor(finalCheckIn,finalCheckOut);
-                            bookingDB.updateBooking("1",finalCheckIn, finalCheckOut);
+
+                            bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, noOfGuests);
                             local.putExtra("location", bob.get(position));
                             local.putExtra("propertyID", ids.get(position));
+
+                            Log.i("sdfdsfds", ""+noOfGuests);
+                            Log.i("sdfdsfds", "" + noAdult);
+                            Log.i("sdfdsfds", "" + noChild);
+                            Log.i("sdfsdf", "" + noChild);
+
                             Log.i("printOut", " " + bob.get(position));
                             Log.i("printOut", " " + ids.get(position));
+
+
                             setResult(RESULT_OK, local);
                             startActivity(local);
                         }
