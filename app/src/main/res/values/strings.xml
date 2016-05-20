@@ -13,6 +13,8 @@
     <string name="title_roominfo_detail">Room_Info Detail</string>
     <string name="title_activity_information">information</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_room__information">Room Information</string>
+    <string name="title_activity_selected_room">Selected Room</string>
 
 
 </resources>

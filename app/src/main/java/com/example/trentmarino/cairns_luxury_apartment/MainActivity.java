@@ -1,5 +1,4 @@
 package com.example.trentmarino.cairns_luxury_apartment;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,14 +25,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.trentmarino.cairns_luxury_apartment.DAO.BookingDB;
+import com.example.trentmarino.cairns_luxury_apartment.ListOfRooms.DisplayRoom;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,9 +42,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     private TextView result, checkIn, checkOut;
     private Button gotToNewPage;
     Spinner locations;
@@ -56,14 +53,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String finalCheckIn;
     private String finalCheckOut;
     private CalendarView calendarView2;
-    private BookingDB bookingDB;
-     String noOfGuests;
-     String noAdult = "5";
-     String noChild = "5";
-    EditText adult;
-    EditText child;
-
-
+    public BookingDB bookingDB;
+    public int noOfGuests;
+    public String noAdult = "5";
+    public String noChild = "5";
+    public EditText adult;
+    public EditText child;
+    private NavagationSingleTon navagationSingleTon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,32 +72,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         checkIn = (TextView) findViewById(R.id.Check_In);
         checkOut = (TextView) findViewById(R.id.Check_Out);
-
         adult = (EditText) findViewById(R.id.no_adult);
         child = (EditText) findViewById(R.id.no_child);
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-        .cacheInMemory(true)
+                .cacheInMemory(true)
                 .cacheOnDisk(true)
-        .build();
+                .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-        .defaultDisplayImageOptions(defaultOptions)
-        .build();
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
         ImageLoader.getInstance().init(config);
         ImageView imageView = (ImageView) findViewById(R.id.imageView2);
-
         ImageLoader.getInstance().displayImage("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg", imageView); // Default options will be used
-
-
-        new JSONTask().execute(" https://whispering-tundra-59848.herokuapp.com/get_property_names.php");
+        new JSONTask().execute(" https://cla-cms.herokuapp.com/get_property_names.php");
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
         dy = c.get(Calendar.DAY_OF_MONTH);
-
         ImageButton datePickerButton = (ImageButton) findViewById(R.id.date_picker_button);
         ImageButton datePickerButton2 = (ImageButton) findViewById(R.id.imageButton2);
         calendarView = (CalendarView) findViewById(R.id.calendar_view);
@@ -111,14 +101,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkIn.setText(finalCheckIn);
         checkOut.setText(finalCheckOut);
         bookingDB = new BookingDB(this);
-
-
-
-        //BUTTON'S ONCLICK
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new DatePickerDialog(MainActivity.this, dateListener, yr, mon, dy).show();
-
             }
         });
         datePickerButton2.setOnClickListener(new View.OnClickListener() {
@@ -127,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        navagationSingleTon = new NavagationSingleTon();
 
-        }
+    }
     private DatePickerDialog.OnDateSetListener dateListener =
             new DatePickerDialog.OnDateSetListener() {
-
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     selectedDate = Calendar.getInstance();
                     yr = year;
@@ -147,14 +132,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }else {
                         checkIn.setText(finalCheckIn);
                     }
-
                     Toast.makeText(getApplicationContext(), "Selected date is " + dayOfMonth + "/" + (monthOfYear+ 1) + "/" +
                             year, Toast.LENGTH_SHORT).show();
                 }
             };
     private DatePickerDialog.OnDateSetListener dateListener2 =
             new DatePickerDialog.OnDateSetListener() {
-
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     selectedDate = Calendar.getInstance();
                     yr = year;
@@ -174,43 +157,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         this.item = item;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.button2) {
             Intent intent = new Intent(this, MapsLocation.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_send) {
-
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -224,11 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-
-
-
     public class JSONTask extends AsyncTask<String,String,String > {
-
         @Override
         protected String doInBackground(String... params) {
             HttpURLConnection connection = null;
@@ -240,28 +208,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 InputStream stream = connection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 reader = new BufferedReader(new InputStreamReader(stream));
-
                 String line = "";
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line);
                 }
-
                 String finalJson = buffer.toString();
-
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("product");
                 StringBuffer finalBuffer = new StringBuffer();
-
-
                 for (int i = 0; i < parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
                     String propertyName = finalObject.getString("property_name");
                     int propertyId = finalObject.getInt("idproperty");
                     finalBuffer.append(propertyId+ "," + propertyName + "\n");
                 }
-
                 return finalBuffer.toString();
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -282,89 +243,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return null;
         }
-
-
         @Override
         protected void onPostExecute(String resulta) {
             super.onPostExecute(resulta);
-            Log.i("dsfdfgd", resulta);
-            final ArrayList<String> bob = new ArrayList<>();
+            Log.i("Result from the DB", resulta);
+            final ArrayList<String> propertyLocation = new ArrayList<>();
             final ArrayList<String> ids = new ArrayList<>();
-            String nameo = resulta.replaceAll("[\\\\d*[,0-9]?\\\\d+]", "");
-            Log.i("namoe", nameo);
-            String[] separated = nameo.split("\n");
-            String jim = resulta.replaceAll("\\D+", ",");
-            String[] jimbo = jim.split(",");
-            Log.i("jim", " " + jim.toString());
-
-
-            for(int j = 0; j< jimbo.length;j++){
-                ids.add(jimbo[j]);
+            String name = resulta.replaceAll("[\\\\d*[,0-9]?\\\\d+]", "");
+            Log.i("namoe", name);
+            String[] separated = name.split("\n");
+            String removedAllLetters = resulta.replaceAll("\\D+", ",");
+            String[] propertID = removedAllLetters.split(",");
+            Log.i("removed All letters", " " + removedAllLetters.toString());
+            for(int j = 0; j< propertID.length;j++){
+                ids.add(propertID[j]);
             }
             Log.i("printOut", " " + ids);
             for (int i = 0; i < separated.length; i++) {
-
-                bob.add(separated[i]);
+                propertyLocation.add(separated[i]);
             }
-
-
-            noAdult = adult.getText().toString();
-            noChild = child.getText().toString();
-            noOfGuests = noAdult + noChild;
-
             locations = (Spinner) findViewById(R.id.spinner1);
-            locations.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, bob));
-
+            locations.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, propertyLocation));
             locations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
                 @Override
                 public void onItemSelected(AdapterView<?> arg0,
                                            View arg1,final int position, long arg3) {
-
-
                     final Intent local = new Intent(MainActivity.this, DisplayRoom.class);
                     gotToNewPage = (Button) findViewById(R.id.button);
                     gotToNewPage.setOnClickListener(new View.OnClickListener() {
-
-
                         @Override
                         public void onClick(View v) {
-
-                            bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, noOfGuests);
-                            local.putExtra("location", bob.get(position));
-                            local.putExtra("propertyID", ids.get(position));
-
-                            Log.i("sdfdsfds", ""+noOfGuests);
-                            Log.i("sdfdsfds", "" + noAdult);
-                            Log.i("sdfdsfds", "" + noChild);
-                            Log.i("sdfsdf", "" + noChild);
-
-                            Log.i("printOut", " " + bob.get(position));
-                            Log.i("printOut", " " + ids.get(position));
-
-
-                            setResult(RESULT_OK, local);
+                            noAdult = adult.getText().toString();
+                            noChild = child.getText().toString();
+                            int numAdult = Integer.parseInt(noAdult);
+                            int numChild = Integer.parseInt(noChild);
+                            noOfGuests = numAdult + numChild;
+                            bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, String.valueOf(noOfGuests));
+                            NavagationSingleTon.getInstance().setPropertyLocationID(ids.get(position));
+                            NavagationSingleTon.getInstance().setPropertyLocationName(propertyLocation.get(position));
+//                            local.putExtra("location", propertyLocation.get(position));
+//                            local.putExtra("propertyID", ids.get(position));
+//                            setResult(RESULT_OK, local);
                             startActivity(local);
                         }
-
                     });
-
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
                 }
             });
-
         }
-
     }
-
-
-
-
-
 }
-
-

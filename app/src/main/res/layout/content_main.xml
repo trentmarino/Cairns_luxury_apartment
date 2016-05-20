@@ -11,12 +11,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.trentmarino.cairns_luxury_apartment.MainActivity"
     tools:showIn="@layout/app_bar_main">
-
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
     <CalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
@@ -40,7 +38,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="52dp"
         android:layout_alignEnd="@+id/calendar_view" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +45,6 @@
         android:background="@drawable/calendar"
         android:layout_below="@+id/spinner1"
         android:layout_alignParentStart="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +55,6 @@
         android:layout_toEndOf="@+id/date_picker_button"
         android:layout_above="@+id/calendar_view"
         android:paddingLeft="10dp" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +62,6 @@
         android:background="@drawable/calendar"
         android:layout_below="@+id/spinner1"
         android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +71,6 @@
         android:paddingLeft="10dp"
         android:layout_below="@+id/spinner1"
         android:layout_toEndOf="@+id/imageButton2" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +78,6 @@
         android:layout_alignEnd="@+id/calendar_view"
         android:layout_below="@+id/calendar_view"
         android:layout_alignParentStart="true" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -94,28 +86,25 @@
         android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/button"
         android:weightSum="1">
-
         <EditText
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/no_adult"
-            android:layout_weight="0.35" />
-
+            android:layout_weight="0.35"
+            android:text="1" />
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.32" />
-
         <EditText
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/no_child"
-            android:layout_weight="0.46" />
+            android:layout_weight="0.46"
+            android:text="0" />
     </LinearLayout>
-
-
 </RelativeLayout>
