@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkOut = (TextView) findViewById(R.id.Check_Out);
         adult = (EditText) findViewById(R.id.no_adult);
         child = (EditText) findViewById(R.id.no_child);
+
+
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -88,7 +90,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageLoader.getInstance().init(config);
         ImageView imageView = (ImageView) findViewById(R.id.imageView2);
         ImageLoader.getInstance().displayImage("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg", imageView); // Default options will be used
-        new JSONTask().execute(" https://cla-cms.herokuapp.com/get_property_names.php");
+
+
+        new JSONTask().execute("http://cla-cms.me/cla_php_scripts/get_property_names.php");
+
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
         dy = c.get(Calendar.DAY_OF_MONTH);

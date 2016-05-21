@@ -40,7 +40,7 @@ public class DisplayRoom extends AppCompatActivity {
         testRoomSelected = (TextView) findViewById(R.id.textView3);
         testRoomSelected.setText(NavagationSingleTon.getInstance().getPropertyLocationName());
 //        new JSONTask().execute(" https://cla-cms.herokuapp.com/get_property_info_based_off_selected.php");
-        new RoomListAsyncTask(this).execute(" https://cla-cms.herokuapp.com/get_property_info_based_off_selected.php");
+        new RoomListAsyncTask(this).execute("http://cla-cms.me/cla_php_scripts/get_property_info_based_off_selected.php");
         bookingDB = new BookingDB(this);
         Cursor cursor = bookingDB.getAllCursor();
         Log.i("returned ", cursor.toString());
@@ -51,6 +51,7 @@ public class DisplayRoom extends AppCompatActivity {
                 new int[]{R.id.CheckIn, R.id.CheckOut, R.id.noGuests},
                 0);
         listView.setAdapter(adapter);
+
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)

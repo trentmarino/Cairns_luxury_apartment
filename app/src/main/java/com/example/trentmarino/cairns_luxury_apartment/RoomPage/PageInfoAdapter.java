@@ -145,8 +145,7 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             PageContent user = (PageContent) pageContent.get(position);
             if (contentType.get(position).equals("4")) {
                 if (user != null) {
-                    vh1.getImageView().setImageResource(R.drawable.calendar);
-                    ImageLoader.getInstance().displayImage("http://media.caranddriver.com/images/media/51/25-cars-worth-waiting-for-lp-ford-gt-photo-658253-s-original.jpg", vh1.getImageView());
+                    ImageLoader.getInstance().displayImage(content.get(position), vh1.getImageView());
                 }
             }
         }
@@ -172,6 +171,8 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         return -1;
     }
+
+
 }
 
 

@@ -12,12 +12,17 @@
     tools:context=".RoomPage.SelectedRoom"
     tools:showIn="@layout/activity_selected_room">
 
+
+
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/roomPage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true" />
+
 
     <TextView
         android:layout_width="wrap_content"

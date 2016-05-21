@@ -2,6 +2,7 @@ package com.example.trentmarino.cairns_luxury_apartment.RoomPage;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,15 +32,17 @@ import java.util.regex.Pattern;
 /**
  * Created by trentmarino on 11/05/16.
  */
-public class RoomPageAsyncTask extends AsyncTask<String,String,String> {
+public class RoomPageAsyncTask extends AsyncTask<String, String, String> {
     private TextView noContent;
     private Activity context;
     ArrayList<PageContent> pageDatas;
+    private SwipeRefreshLayout swipeContainer;
 
 
-    public RoomPageAsyncTask(Activity context){
+    public RoomPageAsyncTask(Activity context) {
         this.context = context;
     }
+
     @Override
     protected String doInBackground(String... params) {
         HttpURLConnection connection = null;
@@ -69,7 +72,7 @@ public class RoomPageAsyncTask extends AsyncTask<String,String,String> {
                     infoType = finalObject.getString("Info_type");
                     content = finalObject.getString("content");
                     content_order = finalObject.getString("content_order");
-                    finalBuffer.append("["+infoType + "]" +"{" + content + "}"+"*" + content_order+"*" + "\n");
+                    finalBuffer.append("[" + infoType + "]" + "{" + content + "}" + "*" + content_order + "*" + "\n");
                 }
             }
             return finalBuffer.toString();
@@ -99,7 +102,7 @@ public class RoomPageAsyncTask extends AsyncTask<String,String,String> {
         super.onPostExecute(pageResult);
         Log.i("page info", pageResult + " " + NavagationSingleTon.getInstance().getPropertyLocationID());
 
-        ArrayList<String> contentType = new ArrayList<>();
+        final ArrayList<String> contentType = new ArrayList<>();
         final ArrayList<String> pageContent = new ArrayList<>();
         final ArrayList<String> pageOrder = new ArrayList<>();
 
@@ -125,23 +128,23 @@ public class RoomPageAsyncTask extends AsyncTask<String,String,String> {
 
         RecyclerView rvContacts = (RecyclerView) context.findViewById(R.id.roomPage);
 
-        for (int i =0 ; i < pageOrder.size(); i++) {
+        for (int i = 0; i < pageOrder.size(); i++) {
             Log.i("layout/contentTypes", " " + contentType.get(i));
             Log.i("page Conent", " " + pageContent.get(i));
             Log.i("conent Order", " " + pageOrder.get(i));
             pageDatas = pageData.createPage(pageOrder.size(), pageContent.get(i));
 
         }
-        if(pageDatas != null) {
+
+        if (pageDatas != null) {
             rvContacts.setHasFixedSize(true);
             PageInfoAdapter adapter = new PageInfoAdapter(pageDatas, contentType, pageContent, pageOrder);
             rvContacts.setAdapter(adapter);
             rvContacts.setLayoutManager(new LinearLayoutManager(context));
-        }else{
+        } else {
             noContent = (TextView) context.findViewById(R.id.notContent);
             noContent.setVisibility(View.VISIBLE);
         }
-
 
 
     }
