@@ -1,5 +1,6 @@
 package com.example.trentmarino.cairns_luxury_apartment.ListOfRooms;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ public class DisplayRoom extends AppCompatActivity {
     ArrayList<String> retrievedRoom;
     RoomListAdapter roomListAdapter;
     ListView roomListView;
+    String priceOrder = "defaultPriceOrder";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,10 @@ public class DisplayRoom extends AppCompatActivity {
         testRoomSelected = (TextView) findViewById(R.id.textView3);
         testRoomSelected.setText(NavagationSingleTon.getInstance().getPropertyLocationName());
 //        new JSONTask().execute(" https://cla-cms.herokuapp.com/get_property_info_based_off_selected.php");
-        new RoomListAsyncTask(this).execute("http://cla-cms.me/cla_php_scripts/get_property_info_based_off_selected.php");
+
+            new RoomListAsyncTask(this).execute("http://cla-cms.me/cla_php_scripts/get_property_info_based_off_selected.php");
+
+
         bookingDB = new BookingDB(this);
         Cursor cursor = bookingDB.getAllCursor();
         Log.i("returned ", cursor.toString());
@@ -69,6 +75,8 @@ public class DisplayRoom extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -81,6 +89,20 @@ public class DisplayRoom extends AppCompatActivity {
         }
         else if( id == R.id.home){
             return true;
+        }
+        else if(id == R.id.priceLowToHigh){
+            Log.i("priceLow", "chyea boi");
+            NavagationSingleTon.getInstance().setPriceOrder("low");
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+
+        } else if (id == R.id.priceHighToLow){
+            Log.i("priceHigh", "chyea boi");
+            NavagationSingleTon.getInstance().setPriceOrder("high");
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

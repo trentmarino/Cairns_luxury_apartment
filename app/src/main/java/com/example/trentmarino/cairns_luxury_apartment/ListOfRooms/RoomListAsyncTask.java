@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,11 +37,13 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
     RoomListAdapter roomListAdapter;
     ListView roomListView;
     private Activity context;
+    private String priceOrder;
 
-    public RoomListAsyncTask ( Activity context) {
+    public RoomListAsyncTask(Activity context) {
         this.context = context;
-
     }
+
+
 
     @Override
     protected String doInBackground(String... params) {
@@ -68,12 +71,15 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
                 String propertyMinDeposit;
                 String imageUrl;
                 String productID;
-                if (Integer.parseInt(NavagationSingleTon.getInstance().getPropertyLocationID()) == (finalObject.getInt("idproperty")) && (finalObject.getInt("is_thumb") == 1)) {
+                String totalNumGuests;
+                if (Integer.parseInt(NavagationSingleTon.getInstance().getPropertyLocationID()) == (finalObject.getInt("idproperty")) && (finalObject.getInt("is_thumb") == 1) &&
+                        finalObject.getInt("max_pax")  >= NavagationSingleTon.getInstance().getTotalNumGuests()) {
                     propertyName = finalObject.getString("product_name");
                     propertyMinDeposit = finalObject.getString("deposit_amount_min");
                     productID = finalObject.getString("idproduct");
                     imageUrl = finalObject.getString("image_url");
-                    finalBuffer.append("(" + productID + ")" + "[" + propertyName + "]" + "," + "*" + propertyMinDeposit + "*" + ", {" + imageUrl + "}" + "\n");
+                    totalNumGuests = finalObject.getString("max_pax");
+                    finalBuffer.append("(" + productID + ")" + "[" + propertyName + "]" + "," + "*" + propertyMinDeposit + "*" + ", {" + imageUrl + "}" + "|" + totalNumGuests + "|" + "\n");
                 }
             }
             return finalBuffer.toString();
@@ -136,6 +142,29 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
 
 
         Log.i("productID", " " + productID);
+
+        Log.i("priceOrder", " " + NavagationSingleTon.getInstance().getPriceOrder());
+        if(NavagationSingleTon.getInstance().getPriceOrder().equals("high")){
+            Collections.sort(url, Collections.reverseOrder());
+
+            Collections.sort(prices, Collections.reverseOrder());
+            Collections.sort(room);
+
+            Collections.sort(productID, Collections.reverseOrder());
+            Log.i("sorted price", prices.toString());
+            Log.i("names", room.toString());
+        }else if(NavagationSingleTon.getInstance().getPriceOrder().equals("low")){
+
+            //Collections.sort(url);
+
+            Collections.sort(prices);
+            Collections.sort(room, Collections.reverseOrder());
+
+            Collections.sort(productID);
+            Log.i("sorted price", prices.toString());
+            Log.i("names", room.toString());
+        }
+
         retrievedRoom = new ArrayList<>();
         roomListAdapter = new RoomListAdapter(context, room, prices, url);
         roomListView = (ListView) context.findViewById(R.id.listOfRooms);

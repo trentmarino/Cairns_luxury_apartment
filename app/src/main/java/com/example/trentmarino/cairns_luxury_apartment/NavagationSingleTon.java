@@ -11,6 +11,8 @@ public class NavagationSingleTon {
     private String type;
     private String content;
     private String order;
+    private int totalNumGuests;
+    private String priceOrder = "default";
 
 
     private static NavagationSingleTon ourInstance = new NavagationSingleTon();
@@ -20,6 +22,14 @@ public class NavagationSingleTon {
     }
 
     protected NavagationSingleTon() {
+    }
+
+    public int getTotalNumGuests() {
+        return totalNumGuests;
+    }
+
+    public void setTotalNumGuests(int totalNumGuests) {
+        this.totalNumGuests = totalNumGuests;
     }
 
     public void setPropertyLocationID(String propertyLocationID) {
@@ -56,5 +66,12 @@ public class NavagationSingleTon {
         return numberOfRooms;
     }
 
+    public String getPriceOrder() {
+        return priceOrder;
+    }
+
+    public void setPriceOrder(String priceOrder) {
+        this.priceOrder = priceOrder;
+    }
 
 }
