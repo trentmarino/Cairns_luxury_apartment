@@ -44,7 +44,7 @@ public class DisplayRoom extends AppCompatActivity {
         testRoomSelected.setText(NavagationSingleTon.getInstance().getPropertyLocationName());
 //        new JSONTask().execute(" https://cla-cms.herokuapp.com/get_property_info_based_off_selected.php");
 
-            new RoomListAsyncTask(this).execute("http://cla-cms.me/cla_php_scripts/get_property_info_based_off_selected.php");
+            new RoomListAsyncTask(this).execute("http://cla-cms.me/get_property_info_based_off_selected.php");
 
 
         bookingDB = new BookingDB(this);

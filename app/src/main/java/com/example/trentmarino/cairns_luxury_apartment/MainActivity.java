@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageLoader.getInstance().displayImage("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg", imageView); // Default options will be used
 
 
-        new JSONTask().execute("http://cla-cms.me/cla_php_scripts/get_property_names.php");
+        new JSONTask().execute("http://cla-cms.me/get_property_names.php");
 
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);

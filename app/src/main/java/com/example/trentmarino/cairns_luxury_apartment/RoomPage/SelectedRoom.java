@@ -39,7 +39,7 @@ public class SelectedRoom extends AppCompatActivity {
                 .defaultDisplayImageOptions(defaultOptions)
                 .build();
         ImageLoader.getInstance().init(config);
-        new RoomPageAsyncTask(this).execute("http://cla-cms.me/cla_php_scripts/get_page_info.php");
+        new RoomPageAsyncTask(this).execute("http://cla-cms.me/get_page_info.php");
     }
 
 }
