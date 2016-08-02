@@ -64,7 +64,6 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
             JSONObject parentObject = new JSONObject(finalJson);
             JSONArray parentArray = parentObject.getJSONArray("product");
             StringBuffer finalBuffer = new StringBuffer();
-            ArrayList<String> property = new ArrayList<>();
             for (int i = 0; i < parentArray.length(); i++) {
                 JSONObject finalObject = parentArray.getJSONObject(i);
                 String propertyName;
@@ -112,10 +111,14 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
             noRooms.setText("No room avalible");
         }
         Log.i("results", resulta);
+
+        ArrayList<ArrayList<String>> combinedArray = new ArrayList<>();
         ArrayList<String> url = new ArrayList<>();
         ArrayList<String> room = new ArrayList<>();
         final ArrayList<String> prices = new ArrayList<>();
         final ArrayList<String> productID = new ArrayList<>();
+        ArrayList<String> sortedArray;
+
 
         Pattern pID = Pattern.compile("\\(([^)]+)\\)");
         Matcher matchedID = pID.matcher(resulta);
@@ -140,23 +143,38 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
             prices.add(matched.group(1));
         }
 
+//        for (int i = 0; i < 4; i++) {
+//            sortedArray = new ArrayList<>();
+//            sortedArray.add(productID.get(i));
+//            sortedArray.add(room.get(i));
+//            sortedArray.add(prices.get(i));
+//            sortedArray.add(url.get(i));
+//            Log.i("is added to array", sortedArray.toString());
+//            for (int j = 0; j < 4; j += 4) {
+//                combinedArray.add(sortedArray);
+//                Log.i("is combined to array", combinedArray.toString());
+//
+//            }
+//        }
+
+
+
+
 
         Log.i("productID", " " + productID);
 
         Log.i("priceOrder", " " + NavagationSingleTon.getInstance().getPriceOrder());
         if(NavagationSingleTon.getInstance().getPriceOrder().equals("high")){
             Collections.sort(url, Collections.reverseOrder());
-
             Collections.sort(prices, Collections.reverseOrder());
             Collections.sort(room);
-
-            Collections.sort(productID, Collections.reverseOrder());
+            Collections.sort(combinedArray, Collections.reverseOrder());
             Log.i("sorted price", prices.toString());
+//            Log.i("sorted Array", sortedArray.toString());
+            Log.i("combined Array", combinedArray.toString());
             Log.i("names", room.toString());
         }else if(NavagationSingleTon.getInstance().getPriceOrder().equals("low")){
-
             //Collections.sort(url);
-
             Collections.sort(prices);
             Collections.sort(room, Collections.reverseOrder());
 
