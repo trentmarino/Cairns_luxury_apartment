@@ -170,17 +170,11 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
             Collections.sort(room);
             Collections.sort(combinedArray, Collections.reverseOrder());
             Log.i("sorted price", prices.toString());
-//            Log.i("sorted Array", sortedArray.toString());
-            Log.i("combined Array", combinedArray.toString());
-            Log.i("names", room.toString());
         }else if(NavagationSingleTon.getInstance().getPriceOrder().equals("low")){
-            //Collections.sort(url);
             Collections.sort(prices);
             Collections.sort(room, Collections.reverseOrder());
-
             Collections.sort(productID);
-            Log.i("sorted price", prices.toString());
-            Log.i("names", room.toString());
+
         }
 
         retrievedRoom = new ArrayList<>();
