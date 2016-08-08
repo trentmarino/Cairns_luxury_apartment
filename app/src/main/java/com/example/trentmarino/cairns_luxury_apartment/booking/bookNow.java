@@ -1,5 +1,6 @@
 package com.example.trentmarino.cairns_luxury_apartment.booking;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,6 @@ public class bookNow extends AppCompatActivity {
     ListView listView;
     EditText name,email,phone,address;
     Button submit;
-    String insertURL = "http://192.168.0.4/CLA-CMS/web/postCustomer.php";
     RequestQueue requestQueue;
     private CreditCardForm form;
     private LinearLayout linearLayout;
@@ -73,55 +73,28 @@ public class bookNow extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         submit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("bob", "it did not work" + error);
-                    }
-
-                })
+                NavagationSingleTon.getInstance().setCustName(name.getText().toString());
+                NavagationSingleTon.getInstance().setCustEmail(email.getText().toString());
+                NavagationSingleTon.getInstance().setCustPhone(phone.getText().toString());
+                NavagationSingleTon.getInstance().setCustAddress(address.getText().toString());
+                if(form.isCreditCardValid())
                 {
+                    CreditCard card = form.getCreditCard();
+                    Log.i("passws",card.toString());
+                    NavagationSingleTon.getInstance().setCreditNumber(card.getCardNumber());
+                    NavagationSingleTon.getInstance().setCreditExpiry(card.getExpDate());
+                    NavagationSingleTon.getInstance().setCreditCode(card.getSecurityCode());
+                }
+//                else
+//                {
+//                    //Alert Credit card invalid
+//                }
+                Intent intent = new Intent(bookNow.this,ConfirmBooking.class);
+                startActivity(intent);
 
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String,String> customer = new Hashtable<String, String>();
-                        customer.put("name",name.getText().toString());
-                        customer.put("email",email.getText().toString());
-                        customer.put("phone",phone.getText().toString());
-                        customer.put("address",address.getText().toString());
-                        customer.put("location",NavagationSingleTon.getInstance().getPropertyLocationName());
-                        customer.put("roomtype",NavagationSingleTon.getInstance().getRoomName());
-                        customer.put("numberofguests",NavagationSingleTon.getInstance().getTotalNumGuests() + "");
-                        customer.put("pricepaid", NavagationSingleTon.getInstance().getPrice());
-                        customer.put("checkin",NavagationSingleTon.getInstance().getCheckIn());
-                        customer.put("checkout",NavagationSingleTon.getInstance().getCheckOut());
-                        if(form.isCreditCardValid())
-                        {
-                            CreditCard card = form.getCreditCard();
-                            //Pass credit card to service
-                            Log.i("passws",card.toString());
-                            customer.put("creditcardNumber",card.getCardNumber());
-                            customer.put("creditcardExpiry",card.getExpDate());
-                            customer.put("creditcardCode", card.getSecurityCode());
-                        }
-                        else
-                        {
-                            //Alert Credit card invalid
-                        }
-                        Log.i("dfdg",customer.toString());
-
-                        return customer;
-                    }
-                };
-                Log.i("Request", request.toString());
-                requestQueue.add(request);
 
             }
         });

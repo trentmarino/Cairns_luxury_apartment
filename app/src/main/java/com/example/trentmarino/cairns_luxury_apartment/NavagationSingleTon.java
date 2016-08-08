@@ -10,6 +10,8 @@ public class NavagationSingleTon {
     private String roomName;
     private String checkIn, checkOut;
     private String price;
+    private String custName,custEmail,custPhone,custAddress;
+    private String creditNumber, creditExpiry, creditCode;
     private int numberOfRooms;
     private int totalNumGuests;
     private String priceOrder = "default";
@@ -104,5 +106,61 @@ public class NavagationSingleTon {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
+
+    public String getCustEmail() {
+        return custEmail;
+    }
+
+    public void setCustEmail(String custEmail) {
+        this.custEmail = custEmail;
+    }
+
+    public String getCustPhone() {
+        return custPhone;
+    }
+
+    public String getCustAddress() {
+        return custAddress;
+    }
+
+    public void setCustAddress(String custAddress) {
+        this.custAddress = custAddress;
+    }
+
+    public void setCustPhone(String custPhone) {
+        this.custPhone = custPhone;
+    }
+
+    public String getCreditNumber() {
+        return creditNumber;
+    }
+
+    public void setCreditNumber(String creditNumber) {
+        this.creditNumber = creditNumber;
+    }
+
+    public String getCreditExpiry() {
+        return creditExpiry;
+    }
+
+    public void setCreditExpiry(String creditExpiry) {
+        this.creditExpiry = creditExpiry;
+    }
+
+    public String getCreditCode() {
+        return creditCode;
+    }
+
+    public void setCreditCode(String creditCode) {
+        this.creditCode = creditCode;
     }
 }
