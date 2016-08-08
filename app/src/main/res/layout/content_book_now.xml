@@ -18,15 +18,22 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:id="@+id/layer"
         android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/currentBooking"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.50" />
+            android:layout_weight="0.15"
+            android:textSize="15dp" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/currentDetails"
+            android:layout_weight="0.38" />
 
         <EditText
             android:layout_width="match_parent"
@@ -58,15 +65,21 @@
             android:layout_height="wrap_content"
             android:inputType="textPostalAddress"
             android:ems="10"
-            android:id="@+id/custAddress"
-            android:text="address" />
+            android:id="@+id/custAddressStreet"
+            android:text="StreetAddress" />
+
+        <com.devmarvel.creditcardentry.library.CreditCardForm
+            android:id="@+id/credit_card_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:include_helper="false"
+            app:include_zip="false"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"
             android:id="@+id/submit"
-            android:layout_weight="0.50"
             android:textSize="48dp" />
 
     </LinearLayout>

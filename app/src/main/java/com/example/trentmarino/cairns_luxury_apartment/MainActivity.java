@@ -1,4 +1,5 @@
 package com.example.trentmarino.cairns_luxury_apartment;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +20,6 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +42,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView result, checkIn, checkOut;
+    private TextView checkIn, checkOut;
     private Button gotToNewPage;
     Spinner locations;
     private MenuItem item;
@@ -54,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String finalCheckOut;
     private CalendarView calendarView2;
     public BookingDB bookingDB;
-    public int noOfGuests;
-    public String noAdult = "5";
-    public String noChild = "5";
-    public EditText adult;
-    public EditText child;
+    private int noOfGuests;
+    private String noAdult;
+    private String noChild;
+    private EditText adult;
+    private EditText child;
     private NavagationSingleTon navagationSingleTon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +73,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         checkIn = (TextView) findViewById(R.id.Check_In);
         checkOut = (TextView) findViewById(R.id.Check_Out);
         adult = (EditText) findViewById(R.id.no_adult);
         child = (EditText) findViewById(R.id.no_child);
+
 
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
@@ -88,40 +89,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .defaultDisplayImageOptions(defaultOptions)
                 .build();
         ImageLoader.getInstance().init(config);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView2);
-        ImageLoader.getInstance().displayImage("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg", imageView); // Default options will be used
-
-
-//        new JSONTask().execute("http://cla-cms.me/get_property_names.php");
-        new JSONTask().execute("http://54.206.36.198/cla_php_scripts/get_property_names.php");
+        adult = (EditText) findViewById(R.id.no_adult);
+        child = (EditText) findViewById(R.id.no_child);
+        new populateDropdown()
+                .execute("http://54.206.36.198/cla_php_scripts/get_property_names.php");
 
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
         dy = c.get(Calendar.DAY_OF_MONTH);
+
         ImageButton datePickerButton = (ImageButton) findViewById(R.id.date_picker_button);
         ImageButton datePickerButton2 = (ImageButton) findViewById(R.id.imageButton2);
+
         calendarView = (CalendarView) findViewById(R.id.calendar_view);
         calendarView2 = (CalendarView) findViewById(R.id.calendar_view2);
         finalCheckIn = dy + "/" + (mon+1) + "/" + yr;
         finalCheckOut = (dy+1) + "/" + (mon+1) + "/" + yr;
         checkIn.setText(finalCheckIn);
         checkOut.setText(finalCheckOut);
+
         bookingDB = new BookingDB(this);
-        datePickerButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                new DatePickerDialog(MainActivity.this, dateListener, yr, mon, dy).show();
-            }
-        });
-        datePickerButton2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                new DatePickerDialog(MainActivity.this, dateListener2, yr, mon, dy).show();
-            }
-        });
+        if (datePickerButton != null) {
+            datePickerButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    new DatePickerDialog(MainActivity.this, checkInDate, yr, mon, dy).show();
+                }
+            });
+        }
+        if (datePickerButton2 != null) {
+            datePickerButton2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    new DatePickerDialog(MainActivity.this, checkout, yr, mon, dy).show();
+                }
+            });
+        }
 
         navagationSingleTon = new NavagationSingleTon();
 
     }
-    private DatePickerDialog.OnDateSetListener dateListener =
+    private DatePickerDialog.OnDateSetListener checkInDate =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     selectedDate = Calendar.getInstance();
@@ -142,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             year, Toast.LENGTH_SHORT).show();
                 }
             };
-    private DatePickerDialog.OnDateSetListener dateListener2 =
+    private DatePickerDialog.OnDateSetListener checkout =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     selectedDate = Calendar.getInstance();
@@ -185,7 +191,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-    public class JSONTask extends AsyncTask<String,String,String > {
+
+    public class populateDropdown extends AsyncTask<String,String,String > {
+
+
         @Override
         protected String doInBackground(String... params) {
             HttpURLConnection connection = null;
@@ -256,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             locations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> arg0,
-                                           View arg1,final int position, long arg3) {
+                                           View arg1, final int position, long arg3) {
                     final Intent local = new Intent(MainActivity.this, DisplayRoom.class);
                     gotToNewPage = (Button) findViewById(R.id.button);
                     gotToNewPage.setOnClickListener(new View.OnClickListener() {
@@ -268,12 +277,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             int numChild = Integer.parseInt(noChild);
                             noOfGuests = numAdult + numChild;
                             NavagationSingleTon.getInstance().setTotalNumGuests(noOfGuests);
+                            NavagationSingleTon.getInstance().setCheckIn(finalCheckIn);
+                            NavagationSingleTon.getInstance().setCheckOut(finalCheckOut);
                             bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, String.valueOf(noOfGuests));
                             NavagationSingleTon.getInstance().setPropertyLocationID(ids.get(position));
                             NavagationSingleTon.getInstance().setPropertyLocationName(propertyLocation.get(position));
-//                            local.putExtra("location", propertyLocation.get(position));
-//                            local.putExtra("propertyID", ids.get(position));
-//                            setResult(RESULT_OK, local);
                             startActivity(local);
                         }
                     });

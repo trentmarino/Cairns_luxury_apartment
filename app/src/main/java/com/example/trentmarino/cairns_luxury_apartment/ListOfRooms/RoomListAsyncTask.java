@@ -114,7 +114,7 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
 
         ArrayList<ArrayList<String>> combinedArray = new ArrayList<>();
         ArrayList<String> url = new ArrayList<>();
-        ArrayList<String> room = new ArrayList<>();
+        final ArrayList<String> room = new ArrayList<>();
         final ArrayList<String> prices = new ArrayList<>();
         final ArrayList<String> productID = new ArrayList<>();
         ArrayList<String> sortedArray;
@@ -137,7 +137,7 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
             url.add(matchURL.group(1));
         }
 
-        Pattern price = Pattern.compile("\\*([^}]*)\\*");
+        final Pattern price = Pattern.compile("\\*([^}]*)\\*");
         Matcher matched = price.matcher(resulta);
         while (matched.find()) {
             prices.add(matched.group(1));
@@ -186,7 +186,9 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent roomInfo = new Intent(context, SelectedRoom.class);
-                NavagationSingleTon.getInstance().setRoomName(productID.get(position));
+                NavagationSingleTon.getInstance().setRoomName(room.get(position));
+                NavagationSingleTon.getInstance().setPrice(prices.get(position));
+                NavagationSingleTon.getInstance().setRoomNumber(productID.get(position));
                 NavagationSingleTon.getInstance().setNumberOfRooms(productID.size());
                 context.startActivity(roomInfo);
 

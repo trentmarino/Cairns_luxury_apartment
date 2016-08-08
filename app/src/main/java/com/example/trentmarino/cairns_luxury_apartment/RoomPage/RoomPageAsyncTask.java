@@ -68,7 +68,7 @@ public class RoomPageAsyncTask extends AsyncTask<String, String, String> {
                 String infoType;
                 String content;
                 String content_order;
-                if (NavagationSingleTon.getInstance().getRoomName().equals(finalObject.getString("idproduct"))) {
+                if (NavagationSingleTon.getInstance().getRoomNumber().equals(finalObject.getString("idproduct"))) {
                     infoType = finalObject.getString("Info_type");
                     content = finalObject.getString("content");
                     content_order = finalObject.getString("content_order");

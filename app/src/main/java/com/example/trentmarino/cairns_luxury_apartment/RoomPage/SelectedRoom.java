@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.example.trentmarino.cairns_luxury_apartment.NavagationSingleTon;
 import com.example.trentmarino.cairns_luxury_apartment.R;
@@ -30,7 +29,7 @@ public class SelectedRoom extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         propertyID = NavagationSingleTon.getInstance().getPropertyLocationID();
-        roomSelected = NavagationSingleTon.getInstance().getRoomName();
+        roomSelected = NavagationSingleTon.getInstance().getRoomNumber();
         numberOfRooms = NavagationSingleTon.getInstance().getNumberOfRooms();
         Log.i("Passed String", roomSelected);
         Log.i("paseed Number", propertyID);

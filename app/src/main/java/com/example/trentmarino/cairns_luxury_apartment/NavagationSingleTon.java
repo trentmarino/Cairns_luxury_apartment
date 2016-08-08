@@ -6,11 +6,11 @@ package com.example.trentmarino.cairns_luxury_apartment;
 public class NavagationSingleTon {
     private String propertyLocationID;
     private String propertyLocationName;
+    private String roomNumber;
     private String roomName;
+    private String checkIn, checkOut;
+    private String price;
     private int numberOfRooms;
-    private String type;
-    private String content;
-    private String order;
     private int totalNumGuests;
     private String priceOrder = "default";
 
@@ -42,8 +42,8 @@ public class NavagationSingleTon {
 
 
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public void setNumberOfRooms(int numberOfRooms) {
@@ -58,8 +58,8 @@ public class NavagationSingleTon {
         return propertyLocationName;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getRoomNumber() {
+        return roomNumber;
     }
 
     public int getNumberOfRooms() {
@@ -74,4 +74,35 @@ public class NavagationSingleTon {
         this.priceOrder = priceOrder;
     }
 
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(String checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public String getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(String checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 }

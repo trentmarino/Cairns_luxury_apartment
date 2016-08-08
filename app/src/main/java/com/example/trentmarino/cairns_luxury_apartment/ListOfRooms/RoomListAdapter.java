@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.trentmarino.cairns_luxury_apartment.NavagationSingleTon;
 import com.example.trentmarino.cairns_luxury_apartment.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -44,6 +45,7 @@ public class RoomListAdapter extends ArrayAdapter<String> {
         }else{
             ImageLoader.getInstance().displayImage(imgUrl.get(position), imageView);
             txtTitle.setText(itemname.get(position));
+
             price.setText(minPrice.get(position));
             return rowView;
         }
