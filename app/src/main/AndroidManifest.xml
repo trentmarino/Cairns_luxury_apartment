@@ -56,6 +56,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListOfRooms.DisplayRoom" />
         </activity>
+        <activity
+            android:name=".booking.bookNow"
+            android:label="@string/title_activity_book_now"
+            android:parentActivityName=".RoomPage.SelectedRoom"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.trentmarino.cairns_luxury_apartment.RoomPage.SelectedRoom" />
+        </activity>
     </application>
 
 </manifest>
