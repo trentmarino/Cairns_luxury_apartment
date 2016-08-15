@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="name"
+            android:hint="Name"
             android:ems="10"
             android:id="@+id/custName"
             android:layout_gravity="center_horizontal" />
@@ -50,7 +50,8 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/custEmail"
-            android:text="email" />
+            android:hint="Email"
+            />
 
         <EditText
             android:layout_width="match_parent"
@@ -58,7 +59,8 @@
             android:inputType="phone"
             android:ems="10"
             android:id="@+id/custPhone"
-            android:text="phone" />
+            android:hint="Phone"
+            />
 
         <EditText
             android:layout_width="match_parent"
@@ -66,7 +68,8 @@
             android:inputType="textPostalAddress"
             android:ems="10"
             android:id="@+id/custAddressStreet"
-            android:text="StreetAddress" />
+            android:hint="Street Address"
+            />
 
         <com.devmarvel.creditcardentry.library.CreditCardForm
             android:id="@+id/credit_card_form"

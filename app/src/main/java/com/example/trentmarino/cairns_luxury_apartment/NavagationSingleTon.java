@@ -1,5 +1,7 @@
 package com.example.trentmarino.cairns_luxury_apartment;
 
+import com.stripe.android.model.Token;
+
 /**
  * Created by trentmarino on 18/05/16.
  */
@@ -11,9 +13,10 @@ public class NavagationSingleTon {
     private String checkIn, checkOut;
     private String price;
     private String custName,custEmail,custPhone,custAddress;
-    private String creditNumber, creditExpiry, creditCode;
+//    private String creditNumber, creditExpiryMonth, creditCode, creditExpiryYear ;
     private int numberOfRooms;
     private int totalNumGuests;
+    private Token bookingToken;
     private String priceOrder = "default";
 
 
@@ -140,27 +143,11 @@ public class NavagationSingleTon {
         this.custPhone = custPhone;
     }
 
-    public String getCreditNumber() {
-        return creditNumber;
+    public Token getBookingToken() {
+        return bookingToken;
     }
 
-    public void setCreditNumber(String creditNumber) {
-        this.creditNumber = creditNumber;
-    }
-
-    public String getCreditExpiry() {
-        return creditExpiry;
-    }
-
-    public void setCreditExpiry(String creditExpiry) {
-        this.creditExpiry = creditExpiry;
-    }
-
-    public String getCreditCode() {
-        return creditCode;
-    }
-
-    public void setCreditCode(String creditCode) {
-        this.creditCode = creditCode;
+    public void setBookingToken(Token bookingToken) {
+        this.bookingToken = bookingToken;
     }
 }

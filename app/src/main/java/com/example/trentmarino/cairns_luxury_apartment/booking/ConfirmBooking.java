@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -29,9 +30,11 @@ import java.util.Map;
 
 public class ConfirmBooking extends AppCompatActivity {
     TextView bookingDetails;
-    String insertURL = "http://192.168.0.4/CLA-CMS/web/postCustomer.php";
+    String insertURL = "http://10.159.44.104/CLA-CMS/web/postCustomer.php";
     RequestQueue requestQueue;
     Button confirm;
+    CheckBox lateChekin;
+    int late = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,8 @@ public class ConfirmBooking extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Displaying the current details of the booking
         bookingDetails = (TextView) findViewById(R.id.ConfirmDetails);
         bookingDetails.append("Your Details\n");
         bookingDetails.append("Name: " + NavagationSingleTon.getInstance().getCustName());
@@ -54,7 +59,24 @@ public class ConfirmBooking extends AppCompatActivity {
         bookingDetails.append("\nPrice: " + NavagationSingleTon.getInstance().getPrice());
         bookingDetails.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
         bookingDetails.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
+
+        //defines the buttons and checkboxes
         confirm = (Button) findViewById(R.id.confirmDetailsBtn);
+        lateChekin = (CheckBox) findViewById(R.id.lateCheckInCheck);
+
+        lateChekin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lateChekin.isChecked()){
+                    Log.i("clicked", "checkbox has been clicked");
+                    late = 1;
+                    Log.i("clicked",""+late);
+
+
+                }
+            }
+        });
+
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -88,10 +110,9 @@ public class ConfirmBooking extends AppCompatActivity {
                         customer.put("pricepaid", NavagationSingleTon.getInstance().getPrice());
                         customer.put("checkin", NavagationSingleTon.getInstance().getCheckIn());
                         customer.put("checkout", NavagationSingleTon.getInstance().getCheckOut());
-                        customer.put("creditcardNumber", NavagationSingleTon.getInstance().getCreditNumber());
-                        customer.put("creditcardExpiry", NavagationSingleTon.getInstance().getCreditExpiry());
-                        customer.put("creditcardCode", NavagationSingleTon.getInstance().getCreditCode());
-                        Log.i("dfdg", customer.toString());
+                        customer.put("creditcardNumber", NavagationSingleTon.getInstance().getBookingToken().getId());
+                        customer.put("lateCheckIn", String.valueOf(late));
+                        Log.i("dfdg", NavagationSingleTon.getInstance().getBookingToken().toString());
 
                         return customer;
                     }
