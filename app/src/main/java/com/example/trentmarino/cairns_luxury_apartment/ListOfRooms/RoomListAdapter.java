@@ -46,7 +46,7 @@ public class RoomListAdapter extends ArrayAdapter<String> {
             ImageLoader.getInstance().displayImage(imgUrl.get(position), imageView);
             txtTitle.setText(itemname.get(position));
 
-            price.setText(minPrice.get(position));
+            price.setText("$"+minPrice.get(position));
             return rowView;
         }
 

@@ -30,7 +30,8 @@ import java.util.Map;
 
 public class ConfirmBooking extends AppCompatActivity {
     TextView bookingDetails;
-    String insertURL = "http://10.159.44.104/CLA-CMS/web/postCustomer.php";
+    String insertURL = "http://cla-cms.me/cla_php_scripts/postCustomer.php";
+//    String insertURL = "http://10.0.0.106/CLA-CMS/web/postCustomer.php";
     RequestQueue requestQueue;
     Button confirm;
     CheckBox lateChekin;
@@ -87,7 +88,7 @@ public class ConfirmBooking extends AppCompatActivity {
                 StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.i("response",response);
                     }
                 }, new Response.ErrorListener() {
                     @Override

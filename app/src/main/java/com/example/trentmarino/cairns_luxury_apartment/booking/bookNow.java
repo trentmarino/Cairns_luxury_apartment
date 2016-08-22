@@ -120,7 +120,6 @@ public class bookNow extends AppCompatActivity {
                             new TokenCallback() {
                                 public void onSuccess(Token token) {
                                     // Send token to your server
-                                    Log.i("token", token.toString());
                                     NavagationSingleTon.getInstance().setBookingToken(token);
                                 }
                                 public void onError(Exception error) {
