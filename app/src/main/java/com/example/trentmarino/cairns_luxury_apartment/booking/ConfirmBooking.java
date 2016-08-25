@@ -25,41 +25,64 @@ import com.example.trentmarino.cairns_luxury_apartment.MainActivity;
 import com.example.trentmarino.cairns_luxury_apartment.NavagationSingleTon;
 import com.example.trentmarino.cairns_luxury_apartment.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ConfirmBooking extends AppCompatActivity {
     TextView bookingDetails;
     String insertURL = "http://cla-cms.me/cla_php_scripts/postCustomer.php";
-//    String insertURL = "http://10.0.0.106/CLA-CMS/web/postCustomer.php";
+    //    String insertURL = "http://10.0.0.106/CLA-CMS/web/postCustomer.php";
     RequestQueue requestQueue;
     Button confirm;
+    SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
     CheckBox lateChekin;
     int late = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_booking);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         //Displaying the current details of the booking
-        bookingDetails = (TextView) findViewById(R.id.ConfirmDetails);
-        bookingDetails.append("Your Details\n");
-        bookingDetails.append("Name: " + NavagationSingleTon.getInstance().getCustName());
-        bookingDetails.append("\nEmail: " + NavagationSingleTon.getInstance().getCustEmail());
-        bookingDetails.append("\nPhone: " + NavagationSingleTon.getInstance().getCustPhone());
-        bookingDetails.append("\nAddress: " + NavagationSingleTon.getInstance().getCustAddress());
-        bookingDetails.append("\n\n\n");
-        bookingDetails.append("Booking Details\n");
-        bookingDetails.append("Location: " + NavagationSingleTon.getInstance().getPropertyLocationName());
-        bookingDetails.append("\nRoom type: " + NavagationSingleTon.getInstance().getRoomName());
-        bookingDetails.append("\nnumber of Guests: " + NavagationSingleTon.getInstance().getTotalNumGuests());
-        bookingDetails.append("\nPrice: " + NavagationSingleTon.getInstance().getPrice());
-        bookingDetails.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
-        bookingDetails.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
+        long date = 0;
+        try {
+
+            Date date1 = myFormat.parse(NavagationSingleTon.getInstance().getCheckIn());
+            Date date2 = myFormat.parse(NavagationSingleTon.getInstance().getCheckOut());
+            long diff = date2.getTime() - date1.getTime();
+           date =  TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+            bookingDetails = (TextView) findViewById(R.id.ConfirmDetails);
+            bookingDetails.append("Your Details\n");
+            bookingDetails.append("Name: " + NavagationSingleTon.getInstance().getCustName());
+            bookingDetails.append("\nEmail: " + NavagationSingleTon.getInstance().getCustEmail());
+            bookingDetails.append("\nPhone: " + NavagationSingleTon.getInstance().getCustPhone());
+            bookingDetails.append("\nAddress: " + NavagationSingleTon.getInstance().getCustAddress());
+            bookingDetails.append("\n\n");
+            bookingDetails.append("Booking Details\n");
+            bookingDetails.append("Location: " + NavagationSingleTon.getInstance().getPropertyLocationName());
+            bookingDetails.append("\nPrice: " + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date);
+            bookingDetails.append("\nRoom type: " + NavagationSingleTon.getInstance().getRoomName());
+            bookingDetails.append("\nnumber of Guests: " + NavagationSingleTon.getInstance().getTotalNumGuests());
+            bookingDetails.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
+            bookingDetails.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
+            bookingDetails.append("\nThe price above is the total cost of the booking including the deposit of 10%");
+            bookingDetails.append("\nYour deposit for this booking is " + (Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date) / 10);
+            Log.i("number", "" + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()));
+
 
         //defines the buttons and checkboxes
         confirm = (Button) findViewById(R.id.confirmDetailsBtn);
@@ -68,10 +91,10 @@ public class ConfirmBooking extends AppCompatActivity {
         lateChekin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lateChekin.isChecked()){
+                if (lateChekin.isChecked()) {
                     Log.i("clicked", "checkbox has been clicked");
                     late = 1;
-                    Log.i("clicked",""+late);
+                    Log.i("clicked", "" + late);
 
 
                 }
@@ -80,6 +103,7 @@ public class ConfirmBooking extends AppCompatActivity {
 
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final long finalDate = date;
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +112,7 @@ public class ConfirmBooking extends AppCompatActivity {
                 StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("response",response);
+                        Log.i("response", response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -98,8 +122,11 @@ public class ConfirmBooking extends AppCompatActivity {
 
                 }) {
 
+
                     @Override
                     protected Map<String, String> getParams() {
+
+
                         Map<String, String> customer = new Hashtable<String, String>();
                         customer.put("name", NavagationSingleTon.getInstance().getCustName());
                         customer.put("email", NavagationSingleTon.getInstance().getCustEmail());
@@ -108,14 +135,14 @@ public class ConfirmBooking extends AppCompatActivity {
                         customer.put("location", NavagationSingleTon.getInstance().getPropertyLocationName());
                         customer.put("roomtype", NavagationSingleTon.getInstance().getRoomName());
                         customer.put("numberofguests", NavagationSingleTon.getInstance().getTotalNumGuests() + "");
-                        customer.put("pricepaid", NavagationSingleTon.getInstance().getPrice());
+                        customer.put("pricepaid", String.valueOf((Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * finalDate) / 10));
                         customer.put("checkin", NavagationSingleTon.getInstance().getCheckIn());
                         customer.put("checkout", NavagationSingleTon.getInstance().getCheckOut());
                         customer.put("creditcardNumber", NavagationSingleTon.getInstance().getBookingToken().getId());
                         customer.put("lateCheckIn", String.valueOf(late));
                         Log.i("dfdg", NavagationSingleTon.getInstance().getBookingToken().toString());
-
                         return customer;
+
                     }
                 };
                 Log.i("Request", request.toString());

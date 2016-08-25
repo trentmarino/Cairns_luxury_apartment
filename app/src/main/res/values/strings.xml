@@ -17,6 +17,7 @@
     <string name="title_activity_selected_room">Selected Room</string>
     <string name="priceHigh">Price High to Low</string>
     <string name="priceLow">Price Low to High</string>
+    <string name="Map">Check In Location</string>
     <string name="title_activity_book_now">bookNow</string>
     <string name="title_activity_confirm_booking">ConfirmBooking</string>
 

@@ -13,7 +13,6 @@ public class NavagationSingleTon {
     private String checkIn, checkOut;
     private String price;
     private String custName,custEmail,custPhone,custAddress;
-//    private String creditNumber, creditExpiryMonth, creditCode, creditExpiryYear ;
     private int numberOfRooms;
     private int totalNumGuests;
     private Token bookingToken;
