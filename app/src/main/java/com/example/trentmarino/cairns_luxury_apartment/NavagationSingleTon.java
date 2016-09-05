@@ -17,7 +17,7 @@ public class NavagationSingleTon {
     private int totalNumGuests;
     private Token bookingToken;
     private String priceOrder = "default";
-
+    private String OneSignalUserId;
 
     private static NavagationSingleTon ourInstance = new NavagationSingleTon();
 
@@ -148,5 +148,13 @@ public class NavagationSingleTon {
 
     public void setBookingToken(Token bookingToken) {
         this.bookingToken = bookingToken;
+    }
+
+    public String getOneSignalUserId() {
+        return OneSignalUserId;
+    }
+
+    public void setOneSignalUserId(String oneSignalUserId) {
+        OneSignalUserId = oneSignalUserId;
     }
 }

@@ -140,6 +140,8 @@ public class ConfirmBooking extends AppCompatActivity {
                         customer.put("checkout", NavagationSingleTon.getInstance().getCheckOut());
                         customer.put("creditcardNumber", NavagationSingleTon.getInstance().getBookingToken().getId());
                         customer.put("lateCheckIn", String.valueOf(late));
+                        customer.put("propertyid", NavagationSingleTon.getInstance().getPropertyLocationID());
+                        customer.put("onesignalid", NavagationSingleTon.getInstance().getOneSignalUserId());
                         Log.i("dfdg", NavagationSingleTon.getInstance().getBookingToken().toString());
                         return customer;
 

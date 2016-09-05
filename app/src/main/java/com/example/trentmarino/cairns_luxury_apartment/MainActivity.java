@@ -30,6 +30,8 @@ import com.example.trentmarino.cairns_luxury_apartment.ListOfRooms.DisplayRoom;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.onesignal.OneSignal;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,14 +69,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Calendar c = Calendar.getInstance();
+        OneSignal.startInit(this).init();
 
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+//        OneSignal.sendTag("key", "value");
+//        OneSignal.getTags(new OneSignal.GetTagsHandler() {
+//            @Override
+//            public void tagsAvailable(JSONObject tags) {
+//                Log.i("tags",tags.toString());
+//            }
+//        });
+
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+                Log.i("debug", "User:" + userId);
+                NavagationSingleTon.getInstance().setOneSignalUserId(userId);
+                Log.i("debug", "User:" + registrationId);
+                if (registrationId != null)
+                    Log.i("debug", "registrationId:" + registrationId);
+            }
+            }
+        );
 
         checkIn = (TextView) findViewById(R.id.Check_In);
         checkOut = (TextView) findViewById(R.id.Check_Out);
