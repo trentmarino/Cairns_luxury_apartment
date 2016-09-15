@@ -5,9 +5,7 @@ package com.example.trentmarino.cairns_luxury_apartment.pageContent;
  */
 public class PageContent {
 
-//    String heading;
-//    String subHeading;
-//    String paragraph;
+
     String content;
 
     public String getContent() {
@@ -18,27 +16,5 @@ public class PageContent {
         this.content = content;
     }
 
-//    public String getHeading() {
-//        return heading;
-//    }
-//
-//    public void setHeading(String heading) {
-//        this.heading = heading;
-//    }
-//
-//    public String getSubHeading() {
-//        return subHeading;
-//    }
-//
-//    public void setSubHeading(String subHeading) {
-//        this.subHeading = subHeading;
-//    }
-//
-//    public String getParagraph() {
-//        return paragraph;
-//    }
-//
-//    public void setParagraph(String paragraph) {
-//        this.paragraph = paragraph;
-//    }
+
 }

@@ -12,8 +12,13 @@ import com.example.trentmarino.cairns_luxury_apartment.viewHolders.HeadingHolder
 import com.example.trentmarino.cairns_luxury_apartment.viewHolders.ImageHolder;
 import com.example.trentmarino.cairns_luxury_apartment.viewHolders.RecyclerViewSimpleTextViewHolder;
 import com.example.trentmarino.cairns_luxury_apartment.viewHolders.SubHeadingViewHolder;
+import com.example.trentmarino.cairns_luxury_apartment.viewHolders.TourHolder;
 import com.example.trentmarino.cairns_luxury_apartment.viewHolders.paragraphViewHolder;
+import com.google.gson.JsonSerializer;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,7 +28,7 @@ import java.util.ArrayList;
 public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<PageContent> pageContent;
     private ArrayList<String> contentType, content, displayOrder;
-    private final int HEAD = 1, SUB = 2, PARA = 3, IMAGE = 4;
+    private final int HEAD = 1, SUB = 2, PARA = 3, IMAGE = 4, TOUR = 5;
     private ArrayList<String> currentOrder;
 
 
@@ -33,6 +38,7 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.content = pageContent;
         this.displayOrder = pageOrder;
         currentOrder = new ArrayList<>();
+        Log.i("page data", content.toString());
 
     }
 
@@ -57,6 +63,10 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case IMAGE:
                 View v4 = inflater.inflate(R.layout.content_type_image, viewGroup, false);
                 viewHolder = new ImageHolder(v4);
+                break;
+            case TOUR:
+                View v5 = inflater.inflate(R.layout.conten_type_tour, viewGroup , false);
+                viewHolder = new TourHolder(v5);
                 break;
             default:
                 View v = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
@@ -93,6 +103,11 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     configureViewHolder4(vh4, Integer.parseInt(displayOrder.get(position)));
                     Log.i("order", " " + displayOrder.get(position));
                     break;
+                case TOUR:
+                    TourHolder vh5 = (TourHolder) viewHolder;
+                    configureViewHolder5(vh5, Integer.parseInt(displayOrder.get(position)));
+                    Log.i("order", " " + pageContent.get(position));
+                    break;
                 default:
                     RecyclerViewSimpleTextViewHolder vh = (RecyclerViewSimpleTextViewHolder) viewHolder;
                     configureDefaultViewHolder(vh, Integer.parseInt(displayOrder.get(position)));
@@ -111,6 +126,7 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             PageContent user = (PageContent) pageContent.get(position);
             if (contentType.get(position).equals("1")) {
                 if (user != null) {
+
                     vh1.getHeadingtext().setText(content.get(position));
                 }
             }
@@ -151,6 +167,26 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    private void configureViewHolder5(TourHolder vh1, int position) {
+        for (int i = 0; i < displayOrder.size(); i++) {
+            PageContent user = (PageContent) pageContent.get(position);
+            if (contentType.get(position).equals("5")) {
+                if (user != null) {
+                    try {
+                        JSONObject tourPackage = new JSONObject(content.get(position));
+                        vh1.getTitle().setText(tourPackage.getString("title"));
+                        vh1.getUrl().setText(tourPackage.getString("url"));
+                        ImageLoader.getInstance().displayImage(tourPackage.getString("image"), vh1.getImage());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("bobobob", content.get(position));
+
+                }
+            }
+        }
+    }
+
 
     @Override
     public int getItemCount() {
@@ -168,6 +204,8 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return PARA;
             } else if (contentType.get(Integer.parseInt(displayOrder.get(position))).equals("4")) {
                 return IMAGE;
+            }else if(contentType.get(Integer.parseInt(displayOrder.get(position))).equals("5")){
+                return TOUR;
             }
         return -1;
     }
