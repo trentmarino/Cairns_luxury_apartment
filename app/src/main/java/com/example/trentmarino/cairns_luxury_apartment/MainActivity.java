@@ -25,6 +25,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.trentmarino.cairns_luxury_apartment.DAO.BookingDB;
 import com.example.trentmarino.cairns_luxury_apartment.ListOfRooms.DisplayRoom;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -45,6 +51,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
+    RequestQueue requestQueue;
+    String showUrl = "http://54.206.36.198/cla_php_scripts/get_property_names.php";
     private TextView checkIn, checkOut;
     private Button gotToNewPage;
     Spinner locations;
@@ -108,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader.getInstance().init(config);
         adult = (EditText) findViewById(R.id.no_adult);
         child = (EditText) findViewById(R.id.no_child);
-        new populateDropdown()
-                .execute("http://54.206.36.198/cla_php_scripts/get_property_names.php");
+//        new populateDropdown()
+//                .execute("http://54.206.36.198/cla_php_scripts/get_property_names.php");
 
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
@@ -142,8 +150,68 @@ public class MainActivity extends AppCompatActivity {
         }
 
         navagationSingleTon = new NavagationSingleTon();
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                showUrl, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                final ArrayList<String> propertyLocation = new ArrayList<>();
+                final ArrayList<String> ids = new ArrayList<>();
+                try {
+                    JSONArray properties = response.getJSONArray("product");
+                    for (int i = 0; i < properties.length(); i++) {
+                        JSONObject property = properties.getJSONObject(i);
+                        propertyLocation.add(property.getString("property_name"));
+                        ids.add(property.getString("idproperty"));
 
-    }
+                    }
+                    locations = (Spinner) findViewById(R.id.spinner1);
+                    locations.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, propertyLocation));
+                    locations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0,
+                                                   View arg1, final int position, long arg3) {
+                            final Intent local = new Intent(MainActivity.this, DisplayRoom.class);
+                            gotToNewPage = (Button) findViewById(R.id.button);
+                            gotToNewPage.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    noAdult = adult.getText().toString();
+                                    noChild = child.getText().toString();
+                                    int numAdult = Integer.parseInt(noAdult);
+                                    int numChild = Integer.parseInt(noChild);
+                                    noOfGuests = numAdult + numChild;
+                                    NavagationSingleTon.getInstance().setTotalNumGuests(noOfGuests);
+                                    NavagationSingleTon.getInstance().setCheckIn(finalCheckIn);
+                                    NavagationSingleTon.getInstance().setCheckOut(finalCheckOut);
+                                    bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, String.valueOf(noOfGuests));
+                                    NavagationSingleTon.getInstance().setPropertyLocationID(ids.get(position));
+                                    NavagationSingleTon.getInstance().setPropertyLocationName(propertyLocation.get(position));
+                                    startActivity(local);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.append(error.getMessage());
+
+                }
+            });
+            requestQueue.add(jsonObjectRequest);
+
+        }
+
     private DatePickerDialog.OnDateSetListener checkInDate =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -205,104 +273,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class populateDropdown extends AsyncTask<String,String,String > {
 
 
-        @Override
-        protected String doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-                String finalJson = buffer.toString();
-                JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("product");
-                StringBuffer finalBuffer = new StringBuffer();
-                for (int i = 0; i < parentArray.length(); i++) {
-                    JSONObject finalObject = parentArray.getJSONObject(i);
-                    String propertyName = finalObject.getString("property_name");
-                    int propertyId = finalObject.getInt("idproperty");
-                    finalBuffer.append(propertyId+ "," + propertyName + "\n");
-                }
-                return finalBuffer.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String resulta) {
-            super.onPostExecute(resulta);
-            Log.i("Result from the DB", resulta);
-            final ArrayList<String> propertyLocation = new ArrayList<>();
-            final ArrayList<String> ids = new ArrayList<>();
-            String name = resulta.replaceAll("[\\\\d*[,0-9]?\\\\d+]", "");
-            Log.i("namoe", name);
-            String[] separated = name.split("\n");
-            String removedAllLetters = resulta.replaceAll("\\D+", ",");
-            String[] propertID = removedAllLetters.split(",");
-            Log.i("removed All letters", " " + removedAllLetters.toString());
-            for(int j = 0; j< propertID.length;j++){
-                ids.add(propertID[j]);
-            }
-            Log.i("printOut", " " + ids);
-            for (int i = 0; i < separated.length; i++) {
-                propertyLocation.add(separated[i]);
-            }
-            locations = (Spinner) findViewById(R.id.spinner1);
-            locations.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, propertyLocation));
-            locations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> arg0,
-                                           View arg1, final int position, long arg3) {
-                    final Intent local = new Intent(MainActivity.this, DisplayRoom.class);
-                    gotToNewPage = (Button) findViewById(R.id.button);
-                    gotToNewPage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            noAdult = adult.getText().toString();
-                            noChild = child.getText().toString();
-                            int numAdult = Integer.parseInt(noAdult);
-                            int numChild = Integer.parseInt(noChild);
-                            noOfGuests = numAdult + numChild;
-                            NavagationSingleTon.getInstance().setTotalNumGuests(noOfGuests);
-                            NavagationSingleTon.getInstance().setCheckIn(finalCheckIn);
-                            NavagationSingleTon.getInstance().setCheckOut(finalCheckOut);
-                            bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, String.valueOf(noOfGuests));
-                            NavagationSingleTon.getInstance().setPropertyLocationID(ids.get(position));
-                            NavagationSingleTon.getInstance().setPropertyLocationName(propertyLocation.get(position));
-                            startActivity(local);
-                        }
-                    });
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-        }
-    }
 }

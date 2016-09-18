@@ -1,11 +1,15 @@
 package com.example.trentmarino.cairns_luxury_apartment.RoomPage;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Response;
 import com.example.trentmarino.cairns_luxury_apartment.R;
 import com.example.trentmarino.cairns_luxury_apartment.pageContent.PageContent;
 import com.example.trentmarino.cairns_luxury_apartment.viewHolders.HeadingHolder;
@@ -26,17 +30,19 @@ import java.util.ArrayList;
  * Created by trentmarino on 19/05/16.
  */
 public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private Context context;
     private ArrayList<PageContent> pageContent;
     private ArrayList<String> contentType, content, displayOrder;
     private final int HEAD = 1, SUB = 2, PARA = 3, IMAGE = 4, TOUR = 5;
     private ArrayList<String> currentOrder;
 
 
-    public PageInfoAdapter(ArrayList<PageContent> content, ArrayList<String> contentType, ArrayList<String> pageContent, ArrayList<String> pageOrder) {
+    public PageInfoAdapter(ArrayList<PageContent> content, ArrayList<String> contentType, ArrayList<String> pageContent, ArrayList<String> pageOrder, Context applicationContext) {
         this.pageContent = content;
         this.contentType = contentType;
         this.content = pageContent;
         this.displayOrder = pageOrder;
+        this.context = applicationContext;
         currentOrder = new ArrayList<>();
         Log.i("page data", content.toString());
 
@@ -173,9 +179,26 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (contentType.get(position).equals("5")) {
                 if (user != null) {
                     try {
-                        JSONObject tourPackage = new JSONObject(content.get(position));
+                        final JSONObject tourPackage = new JSONObject(content.get(position));
                         vh1.getTitle().setText(tourPackage.getString("title"));
                         vh1.getUrl().setText(tourPackage.getString("url"));
+                        vh1.getUrl().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String url = null;
+                                try {
+                                    url = tourPackage.getString("url");
+
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                    i.setData(Uri.parse(url));
+                                context.startActivity(i);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                         ImageLoader.getInstance().displayImage(tourPackage.getString("image"), vh1.getImage());
                     } catch (JSONException e) {
                         e.printStackTrace();

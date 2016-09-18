@@ -117,7 +117,7 @@ public class SelectedRoom extends AppCompatActivity {
 
                     if (pageDatas != null) {
                         rvContacts.setHasFixedSize(true);
-                        PageInfoAdapter adapter = new PageInfoAdapter(pageDatas, pageTypes, contentArray, pageOrder);
+                        PageInfoAdapter adapter = new PageInfoAdapter(pageDatas, pageTypes, contentArray, pageOrder, getApplicationContext());
                         rvContacts.setAdapter(adapter);
                         rvContacts.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     } else {
