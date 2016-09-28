@@ -27,6 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="375dp"
         android:id="@+id/listOfRooms"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
     <ListView
