@@ -10,102 +10,165 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.trentmarino.cairns_luxury_apartment.MainActivity"
-    tools:showIn="@layout/app_bar_main">
-    <Spinner
-        android:id="@+id/spinner1"
+    tools:showIn="@layout/app_bar_main"
+    android:background="@drawable/abg">
+    <android.support.wearable.view.BoxInsetLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:background="#998b8b"
+        android:id="@+id/view"
+        android:layout_marginTop="135dp"
+        style="@style/CardView.Light">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout"
+            android:weightSum="1"
+            android:background="#ffffff">
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:background="#ffffff" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1"
+                android:background="#ffffff">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_picker_button"
+                    android:background="@drawable/calendar"
+                    android:layout_marginLeft="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check-In"
+                    android:id="@+id/Check_In"
+                    android:textSize="20dp"
+                    android:paddingLeft="10dp" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.95" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageButton2"
+                    android:background="@drawable/calendar"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check-Out"
+                    android:id="@+id/Check_Out"
+                    android:textSize="20dp"
+                    android:paddingLeft="10dp"
+                    android:layout_marginRight="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Adults"
+                    android:id="@+id/textView7"
+                    android:layout_weight="0.16"
+                    android:layout_marginLeft="25dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Children"
+                    android:id="@+id/textView8"
+                    android:layout_weight="0.16"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="65dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignBottom="@+id/button"
+                android:weightSum="1"
+                android:background="#ffffff">
+
+                <EditText
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/no_adult"
+                    android:layout_weight="0.16"
+                    android:text="1"
+                    android:layout_marginLeft="15dp" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.62" />
+                <EditText
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/no_child"
+                    android:layout_weight="0.17"
+                    android:text="0"
+                    android:layout_marginRight="15dp" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:id="@+id/button"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+    </FrameLayout>
+</android.support.wearable.view.BoxInsetLayout>
     <CalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/date_picker_button"
-        android:layout_alignParentStart="true"
+        android:layout_height="71dp"
         android:visibility="invisible"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/view"
+        android:layout_alignParentStart="true" />
+
     <CalendarView
         android:id="@+id/calendar_view2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/date_picker_button"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Continue"
-        android:id="@+id/button"
-        android:layout_alignTop="@+id/calendar_view"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="52dp"
-        android:layout_alignEnd="@+id/calendar_view" />
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/date_picker_button"
-        android:background="@drawable/calendar"
-        android:layout_below="@+id/spinner1"
-        android:layout_alignParentStart="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check-In"
-        android:id="@+id/Check_In"
-        android:textSize="20dp"
-        android:layout_below="@+id/spinner1"
-        android:layout_toEndOf="@+id/date_picker_button"
-        android:layout_above="@+id/calendar_view"
-        android:paddingLeft="10dp" />
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:background="@drawable/calendar"
-        android:layout_below="@+id/spinner1"
-        android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check-Out"
-        android:id="@+id/Check_Out"
-        android:textSize="20dp"
-        android:paddingLeft="10dp"
-        android:layout_below="@+id/spinner1"
-        android:layout_toEndOf="@+id/imageButton2" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_alignEnd="@+id/calendar_view"
+        android:layout_height="61dp"
+        android:visibility="invisible"
         android:layout_below="@+id/calendar_view"
         android:layout_alignParentStart="true" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/date_picker_button"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/button"
-        android:weightSum="1">
-        <EditText
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/no_adult"
-            android:layout_weight="0.35"
-            android:text="1" />
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.32" />
-        <EditText
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/no_child"
-            android:layout_weight="0.46"
-            android:text="0" />
-    </LinearLayout>
+
+
 </RelativeLayout>
