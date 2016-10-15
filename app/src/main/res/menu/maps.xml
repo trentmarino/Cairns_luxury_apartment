@@ -2,9 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/history"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_event_white_24dp"
+        android:title="@string/History"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/maps"
         android:orderInCategory="100"
-        android:icon="@drawable/map"
+        android:icon="@drawable/ic_directions_white_24dp"
         android:title="@string/Map"
         app:showAsAction="ifRoom" />
+
 </menu>

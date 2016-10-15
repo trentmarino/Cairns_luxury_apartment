@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private String finalCheckIn;
     private String finalCheckOut;
     private CalendarView calendarView2;
-    public BookingDB bookingDB;
     private int noOfGuests;
     private String noAdult;
     private String noChild;
@@ -83,13 +82,6 @@ public class MainActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         OneSignal.startInit(this).init();
 
-//        OneSignal.sendTag("key", "value");
-//        OneSignal.getTags(new OneSignal.GetTagsHandler() {
-//            @Override
-//            public void tagsAvailable(JSONObject tags) {
-//                Log.i("tags",tags.toString());
-//            }
-//        });
 
         OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
             @Override
@@ -120,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader.getInstance().init(config);
         adult = (EditText) findViewById(R.id.no_adult);
         child = (EditText) findViewById(R.id.no_child);
-//        new populateDropdown()
-//                .execute("http://54.206.36.198/cla_php_scripts/get_property_names.php");
 
         yr = c.get(Calendar.YEAR);
         mon = c.get(Calendar.MONTH);
@@ -137,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         checkIn.setText(finalCheckIn);
         checkOut.setText(finalCheckOut);
 
-        bookingDB = new BookingDB(this);
+
         if (datePickerButton != null) {
             datePickerButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -188,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
                                     NavagationSingleTon.getInstance().setTotalNumGuests(noOfGuests);
                                     NavagationSingleTon.getInstance().setCheckIn(finalCheckIn);
                                     NavagationSingleTon.getInstance().setCheckOut(finalCheckOut);
-                                    bookingDB.updateBooking("1", finalCheckIn, finalCheckOut, String.valueOf(noOfGuests));
                                     NavagationSingleTon.getInstance().setPropertyLocationID(ids.get(position));
                                     NavagationSingleTon.getInstance().setPropertyLocationName(propertyLocation.get(position));
                                     startActivity(local);
@@ -271,6 +260,10 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(id == R.id.maps){
             Intent intent = new Intent(this, MapsLocation.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.history){
+            Intent intent = new Intent(this, history.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

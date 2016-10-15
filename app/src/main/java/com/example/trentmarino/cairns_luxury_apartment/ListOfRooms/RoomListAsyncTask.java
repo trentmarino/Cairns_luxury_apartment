@@ -103,98 +103,85 @@ public class RoomListAsyncTask extends AsyncTask<String, String, String> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(String resulta) {
-        super.onPostExecute(resulta);
-        if (resulta.matches("")) {
-            TextView noRooms = (TextView) context.findViewById(R.id.no_room);
-            noRooms.setText("No room avalible");
-        }
-        Log.i("results", resulta);
-
-        ArrayList<ArrayList<String>> combinedArray = new ArrayList<>();
-        ArrayList<String> url = new ArrayList<>();
-        final ArrayList<String> room = new ArrayList<>();
-        final ArrayList<String> prices = new ArrayList<>();
-        final ArrayList<String> productID = new ArrayList<>();
-        ArrayList<String> sortedArray;
-
-
-        Pattern pID = Pattern.compile("\\(([^)]+)\\)");
-        Matcher matchedID = pID.matcher(resulta);
-        while (matchedID.find()) {
-            productID.add(matchedID.group(1));
-        }
-
-        Pattern roomType = Pattern.compile("\\[([^}]*)\\]");
-        Matcher convertedRoomType = roomType.matcher(resulta);
-        while (convertedRoomType.find()) {
-            room.add(convertedRoomType.group(1));
-        }
-        Pattern imageURL = Pattern.compile("\\{([^}]*)\\}");
-        Matcher matchURL = imageURL.matcher(resulta);
-        while (matchURL.find()) {
-            url.add(matchURL.group(1));
-        }
-
-        final Pattern price = Pattern.compile("\\*([^}]*)\\*");
-        Matcher matched = price.matcher(resulta);
-        while (matched.find()) {
-            prices.add(matched.group(1));
-        }
-
-//        for (int i = 0; i < 4; i++) {
-//            sortedArray = new ArrayList<>();
-//            sortedArray.add(productID.get(i));
-//            sortedArray.add(room.get(i));
-//            sortedArray.add(prices.get(i));
-//            sortedArray.add(url.get(i));
-//            Log.i("is added to array", sortedArray.toString());
-//            for (int j = 0; j < 4; j += 4) {
-//                combinedArray.add(sortedArray);
-//                Log.i("is combined to array", combinedArray.toString());
+//    @Override
+//    protected void onPostExecute(String resulta) {
+//        super.onPostExecute(resulta);
+//        if (resulta.matches("")) {
+//            TextView noRooms = (TextView) context.findViewById(R.id.no_room);
+//            noRooms.setText("No room avalible");
+//        }
+//        Log.i("results", resulta);
+//
+//        ArrayList<ArrayList<String>> combinedArray = new ArrayList<>();
+//        ArrayList<String> url = new ArrayList<>();
+//        final ArrayList<String> room = new ArrayList<>();
+//        final ArrayList<String> prices = new ArrayList<>();
+//        final ArrayList<String> productID = new ArrayList<>();
+//        ArrayList<String> sortedArray;
+//
+//
+//        Pattern pID = Pattern.compile("\\(([^)]+)\\)");
+//        Matcher matchedID = pID.matcher(resulta);
+//        while (matchedID.find()) {
+//            productID.add(matchedID.group(1));
+//        }
+//
+//        Pattern roomType = Pattern.compile("\\[([^}]*)\\]");
+//        Matcher convertedRoomType = roomType.matcher(resulta);
+//        while (convertedRoomType.find()) {
+//            room.add(convertedRoomType.group(1));
+//        }
+//        Pattern imageURL = Pattern.compile("\\{([^}]*)\\}");
+//        Matcher matchURL = imageURL.matcher(resulta);
+//        while (matchURL.find()) {
+//            url.add(matchURL.group(1));
+//        }
+//
+//        final Pattern price = Pattern.compile("\\*([^}]*)\\*");
+//        Matcher matched = price.matcher(resulta);
+//        while (matched.find()) {
+//            prices.add(matched.group(1));
+//        }
+//
+//
+//
+//
+//
+//
+//        Log.i("productID", " " + productID);
+//
+//        Log.i("priceOrder", " " + NavagationSingleTon.getInstance().getPriceOrder());
+//        if(NavagationSingleTon.getInstance().getPriceOrder().equals("high")){
+//            Collections.sort(url, Collections.reverseOrder());
+//            Collections.sort(prices, Collections.reverseOrder());
+//            Collections.sort(room);
+//            Collections.sort(combinedArray, Collections.reverseOrder());
+//            Log.i("sorted price", prices.toString());
+//        }else if(NavagationSingleTon.getInstance().getPriceOrder().equals("low")){
+//            Collections.sort(prices);
+//            Collections.sort(room, Collections.reverseOrder());
+//            Collections.sort(productID);
+//
+//        }
+//
+//        retrievedRoom = new ArrayList<>();
+//        roomListAdapter = new RoomListAdapter(context, room, prices, url, desc);
+//        roomListView = (ListView) context.findViewById(R.id.listOfRooms);
+//        roomListView.setAdapter(roomListAdapter);
+//        roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                Intent roomInfo = new Intent(context, SelectedRoom.class);
+//                NavagationSingleTon.getInstance().setRoomName(room.get(position));
+//                NavagationSingleTon.getInstance().setPrice(prices.get(position));
+//                NavagationSingleTon.getInstance().setRoomNumber(productID.get(position));
+//                NavagationSingleTon.getInstance().setNumberOfRooms(productID.size());
+//                context.startActivity(roomInfo);
+//
 //
 //            }
-//        }
-
-
-
-
-
-        Log.i("productID", " " + productID);
-
-        Log.i("priceOrder", " " + NavagationSingleTon.getInstance().getPriceOrder());
-        if(NavagationSingleTon.getInstance().getPriceOrder().equals("high")){
-            Collections.sort(url, Collections.reverseOrder());
-            Collections.sort(prices, Collections.reverseOrder());
-            Collections.sort(room);
-            Collections.sort(combinedArray, Collections.reverseOrder());
-            Log.i("sorted price", prices.toString());
-        }else if(NavagationSingleTon.getInstance().getPriceOrder().equals("low")){
-            Collections.sort(prices);
-            Collections.sort(room, Collections.reverseOrder());
-            Collections.sort(productID);
-
-        }
-
-        retrievedRoom = new ArrayList<>();
-        roomListAdapter = new RoomListAdapter(context, room, prices, url);
-        roomListView = (ListView) context.findViewById(R.id.listOfRooms);
-        roomListView.setAdapter(roomListAdapter);
-        roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Intent roomInfo = new Intent(context, SelectedRoom.class);
-                NavagationSingleTon.getInstance().setRoomName(room.get(position));
-                NavagationSingleTon.getInstance().setPrice(prices.get(position));
-                NavagationSingleTon.getInstance().setRoomNumber(productID.get(position));
-                NavagationSingleTon.getInstance().setNumberOfRooms(productID.size());
-                context.startActivity(roomInfo);
-
-
-            }
-        });
-    }
+//        });
+//    }
 }
 

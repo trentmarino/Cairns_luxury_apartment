@@ -54,6 +54,7 @@ public class SelectedRoom extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(NavagationSingleTon.getInstance().getRoomName());
         propertyID = NavagationSingleTon.getInstance().getPropertyLocationID();
         roomSelected = NavagationSingleTon.getInstance().getRoomNumber();
         numberOfRooms = NavagationSingleTon.getInstance().getNumberOfRooms();
@@ -68,8 +69,6 @@ public class SelectedRoom extends AppCompatActivity {
                 .defaultDisplayImageOptions(defaultOptions)
                 .build();
         ImageLoader.getInstance().init(config);
-//        new RoomPageAsyncTask(this).execute("http://cla-cms.me/get_page_info.php");
-//        new RoomPageAsyncTask(this).execute("http://54.206.36.198/cla_php_scripts/get_page_info.php");
 
         requestQueue = Volley.newRequestQueue(this);
 

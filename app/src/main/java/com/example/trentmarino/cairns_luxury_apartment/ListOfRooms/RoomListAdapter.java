@@ -22,13 +22,15 @@ public class RoomListAdapter extends ArrayAdapter<String> {
     ArrayList<String> itemname;
     ArrayList<String> minPrice = new ArrayList<>();
     ArrayList<String> imgUrl = new ArrayList<>();
+    ArrayList<String> desc = new ArrayList<>();
     private Handler handler;
-    public RoomListAdapter(Activity context, ArrayList<String> itemname, ArrayList<String> prices, ArrayList<String> url) {
+    public RoomListAdapter(Activity context, ArrayList<String> itemname, ArrayList<String> prices, ArrayList<String> url, ArrayList<String> desc) {
         super(context, R.layout.room_item_view, itemname);
         this.context=context;
         this.itemname=itemname;
         this.minPrice = prices;
         this.imgUrl = url;
+        this.desc = desc;
 
 
     }
@@ -38,6 +40,7 @@ public class RoomListAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.room_item_view, null, true);
         TextView txtTitle = (TextView) rowView.findViewById(R.id.room_name);
         TextView price = (TextView) rowView.findViewById(R.id.Price);
+        TextView descText = (TextView) rowView.findViewById(R.id.room_descript);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.room_thumb);
         if(itemname.get(position).matches("")){
             txtTitle.setText("No Avalible Rooms");
@@ -45,7 +48,7 @@ public class RoomListAdapter extends ArrayAdapter<String> {
         }else{
             ImageLoader.getInstance().displayImage(imgUrl.get(position), imageView);
             txtTitle.setText(itemname.get(position));
-
+            descText.setText(desc.get(position));
             price.setText("$"+minPrice.get(position));
             return rowView;
         }

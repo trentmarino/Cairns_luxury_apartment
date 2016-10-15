@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class ConfirmBooking extends AppCompatActivity {
     TextView bookingDetails;
     String insertURL = "http://cla-cms.me/cla_php_scripts/postCustomer.php";
-    //    String insertURL = "http://10.0.0.106/CLA-CMS/web/postCustomer.php";
+    public BookingDB bookingDB;
     RequestQueue requestQueue;
     Button confirm;
     SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -50,7 +50,7 @@ public class ConfirmBooking extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        bookingDB = new BookingDB(this);
 
 
         //Displaying the current details of the booking
@@ -147,6 +147,10 @@ public class ConfirmBooking extends AppCompatActivity {
 
                     }
                 };
+                bookingDB.insertCursor(String.valueOf((Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * finalDate) / 10),
+                        NavagationSingleTon.getInstance().getCheckIn(), NavagationSingleTon.getInstance().getCheckOut(),
+                        String.valueOf(NavagationSingleTon.getInstance().getTotalNumGuests()),
+                                NavagationSingleTon.getInstance().getRoomName());
                 Log.i("Request", request.toString());
                 requestQueue.add(request);
                 Intent goHome = new Intent(ConfirmBooking.this, MainActivity.class);
