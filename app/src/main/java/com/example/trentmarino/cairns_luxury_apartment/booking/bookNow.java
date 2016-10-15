@@ -58,13 +58,9 @@ public class bookNow extends AppCompatActivity {
         currentBooking.append("\nRoom type: " + NavagationSingleTon.getInstance().getRoomName());
         currentBooking.append("\nnumber of Guests: " + NavagationSingleTon.getInstance().getTotalNumGuests());
         currentBooking.append("\nPrice: " + NavagationSingleTon.getInstance().getPrice());
-        listView = (ListView) findViewById(R.id.currentDetails);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                R.layout.item_view, cursor,
-                new String[]{"check_in", "check_out", "no_of_guests"},
-                new int[]{R.id.CheckIn, R.id.CheckOut, R.id.noGuests},
-                0);
-        listView.setAdapter(adapter);
+        currentBooking.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
+        currentBooking.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
+
         name = (EditText) findViewById(R.id.custName);
         email = (EditText) findViewById(R.id.custEmail);
         phone = (EditText) findViewById(R.id.custPhone);
