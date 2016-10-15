@@ -28,6 +28,7 @@
         android:layout_height="375dp"
         android:id="@+id/listOfRooms"
         android:divider="@null"
+        android:scrollbars="none"
         android:dividerHeight="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
@@ -35,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:id="@+id/listView"
+        android:scrollbars="none"
         android:layout_below="@+id/textView3"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/listOfRooms" />
