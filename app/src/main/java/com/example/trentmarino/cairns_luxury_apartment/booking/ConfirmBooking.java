@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,23 +70,23 @@ public class ConfirmBooking extends AppCompatActivity {
             e.printStackTrace();
         }
             bookingDetails = (TextView) findViewById(R.id.ConfirmDetails);
-            bookingDetails.append("Your Details:\n");
-            bookingDetails.append("Name: " + NavagationSingleTon.getInstance().getCustName());
-            bookingDetails.append("\nEmail: " + NavagationSingleTon.getInstance().getCustEmail());
-            bookingDetails.append("\nPhone: " + NavagationSingleTon.getInstance().getCustPhone());
-            bookingDetails.append("\nAddress: " + NavagationSingleTon.getInstance().getCustAddress());
-            bookingDetails.append("\n\n");
-            bookingDetails.append("Booking Details\n");
-            bookingDetails.append("Location: " + NavagationSingleTon.getInstance().getPropertyLocationName());
-            bookingDetails.append("\nPrice: $" + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date + ".00");
-            bookingDetails.append("\nRoom type: " + NavagationSingleTon.getInstance().getRoomName());
-            bookingDetails.append("\nnumber of Guests: " + NavagationSingleTon.getInstance().getTotalNumGuests());
-            bookingDetails.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
-            bookingDetails.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
-            bookingDetails.append("\nThe price above is the total cost of the booking including the deposit of 10%");
-            bookingDetails.append("\nYour deposit for this booking is $" + (Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date) / 10 + ".00");
+            bookingDetails.append("<b>Your Details:</b><br>");
+            bookingDetails.append("<b>Name: </b>" + NavagationSingleTon.getInstance().getCustName() + "<br>");
+            bookingDetails.append("<b>Email: </b>" + NavagationSingleTon.getInstance().getCustEmail() + "<br>");
+            bookingDetails.append("<b>Phone: </b>" + NavagationSingleTon.getInstance().getCustPhone() + "<br>");
+            bookingDetails.append("<b>Address: </b>" + NavagationSingleTon.getInstance().getCustAddress() + "<br>");
+            bookingDetails.append("<br><br>");
+            bookingDetails.append("<b>Booking Details:</b><br>");
+            bookingDetails.append("<b>Location: </b>" + NavagationSingleTon.getInstance().getPropertyLocationName() + "<br>");
+            bookingDetails.append("<b>Price: </b>$" + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date + ".00<br>");
+            bookingDetails.append("<b>Room type: </b>" + NavagationSingleTon.getInstance().getRoomName() + "<br>");
+            bookingDetails.append("<b>Number of Guests: </b>" + NavagationSingleTon.getInstance().getTotalNumGuests() + "<br>");
+            bookingDetails.append("<b>Check In: </b>" + NavagationSingleTon.getInstance().getCheckIn() + "<br>");
+            bookingDetails.append("<b>Check Out: </b>" + NavagationSingleTon.getInstance().getCheckOut() + "<br>");
+            bookingDetails.append("The price above is the total cost of the booking including the deposit of 10%<br>");
+            bookingDetails.append("<b>Your deposit for this booking is: </b>$" + (Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date) / 10 + ".00<br>");
             Log.i("number", "" + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()));
-
+            bookingDetails.setText(Html.fromHtml(bookingDetails.getText().toString()));
 
         //defines the buttons and checkboxes
         confirm = (Button) findViewById(R.id.confirmDetailsBtn);
