@@ -50,6 +50,7 @@ public class bookNow extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        setTitle("Booking Form");
 
         bookingDB = new BookingDB(this);
         Cursor cursor = bookingDB.getAllCursor();

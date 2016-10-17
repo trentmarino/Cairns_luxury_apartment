@@ -1,5 +1,6 @@
 package com.example.trentmarino.cairns_luxury_apartment.booking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,6 +54,7 @@ public class ConfirmBooking extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         bookingDB = new BookingDB(this);
 
+        setTitle("Booking Details");
 
         //Displaying the current details of the booking
         long date = 0;
@@ -66,7 +69,7 @@ public class ConfirmBooking extends AppCompatActivity {
             e.printStackTrace();
         }
             bookingDetails = (TextView) findViewById(R.id.ConfirmDetails);
-            bookingDetails.append("Your Details\n");
+            bookingDetails.append("Your Details:\n");
             bookingDetails.append("Name: " + NavagationSingleTon.getInstance().getCustName());
             bookingDetails.append("\nEmail: " + NavagationSingleTon.getInstance().getCustEmail());
             bookingDetails.append("\nPhone: " + NavagationSingleTon.getInstance().getCustPhone());
@@ -74,13 +77,13 @@ public class ConfirmBooking extends AppCompatActivity {
             bookingDetails.append("\n\n");
             bookingDetails.append("Booking Details\n");
             bookingDetails.append("Location: " + NavagationSingleTon.getInstance().getPropertyLocationName());
-            bookingDetails.append("\nPrice: " + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date);
+            bookingDetails.append("\nPrice: $" + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date + ".00");
             bookingDetails.append("\nRoom type: " + NavagationSingleTon.getInstance().getRoomName());
             bookingDetails.append("\nnumber of Guests: " + NavagationSingleTon.getInstance().getTotalNumGuests());
             bookingDetails.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
             bookingDetails.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
             bookingDetails.append("\nThe price above is the total cost of the booking including the deposit of 10%");
-            bookingDetails.append("\nYour deposit for this booking is " + (Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date) / 10);
+            bookingDetails.append("\nYour deposit for this booking is $" + (Integer.parseInt(NavagationSingleTon.getInstance().getPrice()) * date) / 10 + ".00");
             Log.i("number", "" + Integer.parseInt(NavagationSingleTon.getInstance().getPrice()));
 
 
@@ -108,6 +111,12 @@ public class ConfirmBooking extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Context context = getApplicationContext();
+                CharSequence text = "Your booking is being confirmed.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
 
                 StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
                     @Override
