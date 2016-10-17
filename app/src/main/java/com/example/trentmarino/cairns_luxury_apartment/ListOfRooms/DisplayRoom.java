@@ -37,6 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class DisplayRoom extends AppCompatActivity {
     TextView checkin, checkout, noOfGuests;
@@ -85,10 +88,51 @@ public class DisplayRoom extends AppCompatActivity {
                 final ArrayList<String> productID = new ArrayList<>();
                 final  ArrayList<String> desc = new ArrayList<>();
                 try {
-                    JSONArray properties = response.getJSONArray("product");
-                    for (int i = 0; i < properties.length(); i++) {
 
-                        JSONObject property = properties.getJSONObject(i);
+
+                    JSONArray properties = response.getJSONArray("product");
+                    JSONArray sortedJsonArray = new JSONArray();
+                    List<JSONObject> jsonList = new ArrayList<JSONObject>();
+                    for (int i = 0; i < properties.length(); i++) {
+                        jsonList.add(properties.getJSONObject(i));
+                    }
+
+
+                    Collections.sort( jsonList, new Comparator<JSONObject>() {
+
+                        public int compare(JSONObject a, JSONObject b) {
+                            String valA = new String();
+                            String valB = new String();
+
+                            try {
+                                valA = (String) a.get("deposit_amount_min");
+                                valB = (String) b.get("deposit_amount_min");
+                            }
+                            catch (JSONException e) {
+                                //do something
+                            }
+                            if(NavagationSingleTon.getInstance().getPriceOrder().equals("high")) {
+
+
+                                return -valA.compareTo(valB);
+                            }
+                            return valA.compareTo(valB);
+
+
+                        }
+                    });
+
+                    for (int i = 0; i < properties.length(); i++) {
+                        sortedJsonArray.put(jsonList.get(i));
+                    }
+
+                    if(NavagationSingleTon.getInstance().getPriceOrder().equals("low")){
+
+                    }
+                    for (int i = 0; i < sortedJsonArray.length(); i++) {
+
+                        JSONObject property = sortedJsonArray.getJSONObject(i);
+
                         if (Integer.parseInt(NavagationSingleTon.getInstance().getPropertyLocationID()) == (property.getInt("idproperty")) && (property.getInt("is_thumb") == 1) &&
                                 property.getInt("max_pax")  >= NavagationSingleTon.getInstance().getTotalNumGuests()) {
                             productID.add(property.getString("idproduct"));
@@ -99,6 +143,8 @@ public class DisplayRoom extends AppCompatActivity {
                         }
 
                     }
+
+
 
 
                     roomListAdapter = new RoomListAdapter(context, room, prices, url, desc);
