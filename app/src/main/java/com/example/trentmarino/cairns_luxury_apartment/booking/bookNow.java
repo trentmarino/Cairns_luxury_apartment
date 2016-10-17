@@ -58,8 +58,9 @@ public class bookNow extends AppCompatActivity {
         currentBooking.append("\nRoom type: " + NavagationSingleTon.getInstance().getRoomName());
         currentBooking.append("\nnumber of Guests: " + NavagationSingleTon.getInstance().getTotalNumGuests());
         currentBooking.append("\nPrice: " + NavagationSingleTon.getInstance().getPrice());
-        currentBooking.append("\nPrice: " + NavagationSingleTon.getInstance().getCheckIn());
-        currentBooking.append("\nPrice: " + NavagationSingleTon.getInstance().getCheckOut());
+        currentBooking.append("\nCheck In: " + NavagationSingleTon.getInstance().getCheckIn());
+        currentBooking.append("\nCheck Out: " + NavagationSingleTon.getInstance().getCheckOut());
+
         name = (EditText) findViewById(R.id.custName);
         email = (EditText) findViewById(R.id.custEmail);
         phone = (EditText) findViewById(R.id.custPhone);
