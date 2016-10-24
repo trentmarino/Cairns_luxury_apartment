@@ -103,6 +103,7 @@ public class SelectedRoom extends AppCompatActivity {
                             tourArray.add(0, tourObject.getString("title"));
                             tourArray.add(1, tourObject.getString("url"));
                             tourArray.add(2, tourObject.getString("image"));
+                            tourArray.add(3, tourObject.getString("price"));
                             for (int k = 0; k < tourArray.size() ; k++) {
                                 Log.i("arrayOut", tourArray.get(k));
                                 pageDatas = pageData.createPage(pageOrder.size(), tourArray.get(k));

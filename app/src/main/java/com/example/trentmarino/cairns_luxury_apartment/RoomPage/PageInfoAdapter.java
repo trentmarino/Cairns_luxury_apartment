@@ -182,6 +182,7 @@ public class PageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         final JSONObject tourPackage = new JSONObject(content.get(position));
                         vh1.getTitle().setText(tourPackage.getString("title"));
                         vh1.getUrl().setText(tourPackage.getString("url"));
+                        vh1.getPrice().setText("$"+tourPackage.getString("price")+".00");
                         vh1.getUrl().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

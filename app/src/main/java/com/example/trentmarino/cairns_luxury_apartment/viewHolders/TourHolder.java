@@ -12,12 +12,13 @@ import com.example.trentmarino.cairns_luxury_apartment.R;
  */
 public class TourHolder extends RecyclerView.ViewHolder {
     private ImageView image;
-    private TextView title, url;
+    private TextView title, url, price;
 
     public TourHolder(View v) {
         super(v);
         image = (ImageView) v.findViewById(R.id.image);
         title = (TextView) v.findViewById(R.id.title);
+        price = (TextView) v.findViewById(R.id.price);
         url = (TextView) v.findViewById(R.id.url);
     }
 
@@ -44,5 +45,13 @@ public class TourHolder extends RecyclerView.ViewHolder {
 
     public void setUrl(TextView url) {
         this.url = url;
+    }
+
+    public TextView getPrice() {
+        return price;
+    }
+
+    public void setPrice(TextView price) {
+        this.price = price;
     }
 }

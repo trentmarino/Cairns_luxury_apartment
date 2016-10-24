@@ -9,7 +9,8 @@ android {
     defaultConfig {
         applicationId "com.example.trentmarino.cairns_luxury_apartment"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [manifestApplicationId          : "${applicationId}",
